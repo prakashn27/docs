@@ -46,44 +46,6 @@ Scrape website content
 3. Upload file, add Q&A, or enter text
 4. Data source is automatically linked to agent
 
-## Processing Status
-
-File data sources track processing status:
-
-```ruby
-file_ds = FileDataSource.find(id)
-metadata = file_ds.metadata
-
-# Check status
-metadata["processing_status"]  # "processing", "completed", "failed"
-
-# Results
-metadata["chunk_count"]        # Number of chunks uploaded
-metadata["total_chunks"]       # Total chunks extracted
-metadata["error"]              # Error message if failed
-```
-
-## Querying Data Sources
-
-Once processed, data sources are searchable via vector search:
-
-```ruby
-# Get Turbopuffer service
-turbopuffer = TurbopufferService.for_organization(organization_id)
-
-# Search for similar content
-result = turbopuffer.query_similar(
-  "What is the revenue forecast?",
-  top_k: 10
-)
-
-# Filter by specific file
-result = turbopuffer.query_similar(
-  "What is the revenue forecast?",
-  top_k: 10,
-  filters: { file_id: ["Equals", file_data_source.id] }
-)
-```
 
 ## Best Practices
 
@@ -94,12 +56,6 @@ result = turbopuffer.query_similar(
 5. **Monitor processing**: Check file processing status before relying on new files
 
 ## Troubleshooting
-
-### Files not processing
-
-- Check SolidQueue is running: `bin/rails solid_queue:start`
-- Verify environment variables: `UNSTRUCTURED_API_KEY`, `OPENAI_API_KEY`, `TURBOPUFFER_API_KEY`
-- Check job dashboard: `http://localhost:3000/jobs`
 
 ### Agent not finding content
 
@@ -116,13 +72,5 @@ result = turbopuffer.query_similar(
   href="/agents/procedures"
 >
   Create structured procedures with conditional logic
-</Card>
-
-<Card
-  title="File Processing Setup"
-  icon="wrench"
-  href="/setup/file-processing"
->
-  Configure file processing pipeline
 </Card>
 
