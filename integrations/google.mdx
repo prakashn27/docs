@@ -1,0 +1,122 @@
+---
+title: "Google Integration"
+description: "Connect Support Unicorn with Google services"
+---
+
+## Overview
+
+The Google integration provides:
+
+- **OAuth authentication** via Google
+- **User management** with Google accounts
+- **Single sign-on (SSO)** capabilities
+
+## Setup
+
+### Step 1: Create Google OAuth Credentials
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create a new project or select existing
+3. Go to **APIs & Services** → **Credentials**
+4. Click **"Create Credentials"** → **"OAuth client ID"**
+5. Configure:
+   - **Application type**: Web application
+   - **Name**: Support Unicorn
+   - **Authorized redirect URIs**: 
+     ```
+     https://your-domain.com/auth/google_oauth2/callback
+     ```
+6. Click **"Create"**
+7. Copy the **Client ID** and **Client Secret**
+
+### Step 2: Configure in Support Unicorn
+
+1. Navigate to your Support Unicorn instance
+2. Go to **Settings** → **Integrations** → **Google**
+3. Enter:
+   - **Client ID**
+   - **Client Secret**
+4. Click **"Save"**
+
+### Step 3: Set Environment Variables
+
+```bash
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+```
+
+## Usage
+
+### User Authentication
+
+Users can sign in with Google:
+
+1. Click **"Sign in with Google"** on the login page
+2. User is redirected to Google for authorization
+3. After authorization, user is redirected back
+4. User account is created/linked automatically
+
+### Google Installations
+
+Manage Google installations:
+
+```ruby
+# View installations
+GoogleInstallation.all
+
+# Delete installation
+installation = GoogleInstallation.find(id)
+installation.destroy
+```
+
+## Routes
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/google/install` | GET | OAuth installation page |
+| `/auth/google_oauth2/callback` | GET/POST | OAuth callback |
+| `/google_installations` | GET | List installations |
+| `/google_installations/:id` | DELETE | Delete installation |
+
+## Configuration
+
+### OAuth Scopes
+
+The integration requests these scopes:
+
+- `openid`
+- `email`
+- `profile`
+
+### User Creation
+
+When a user signs in with Google for the first time:
+
+1. A new `User` record is created
+2. Email and name are populated from Google profile
+3. User is linked to their Google account
+
+## Troubleshooting
+
+### OAuth redirect error
+
+- Verify redirect URI matches exactly in Google Console
+- Check redirect URI uses HTTPS in production
+- Ensure no trailing slashes
+
+### User not created
+
+- Check Google OAuth scopes are approved
+- Verify email is provided by Google
+- Review Rails logs for errors
+
+## Next Steps
+
+<Card
+  title="Slack Integration"
+  icon="slack"
+  href="/integrations/slack"
+>
+  Connect with Slack for team communication
+</Card>
+

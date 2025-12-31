@@ -1,0 +1,195 @@
+---
+title: "Local Development Setup"
+description: "Set up your local development environment"
+---
+
+## Prerequisites
+
+- **PostgreSQL** running locally
+- **Ruby 3.4.4**
+- **Rails 8.0.2**
+- **Node.js** (for asset compilation)
+
+## Initial Setup
+
+### 1. Clone Repository
+
+```bash
+git clone <repository-url>
+cd support-unicorn-rails
+```
+
+### 2. Install Dependencies
+
+```bash
+# Install Ruby gems
+bundle install
+
+# Install Node packages (if needed)
+npm install
+```
+
+### 3. Database Setup
+
+```bash
+# Create databases
+bin/rails db:create
+
+# Run migrations
+bin/rails db:migrate
+
+# Run cable migrations
+bin/rails db:migrate:cable
+```
+
+### 4. Environment Variables
+
+Create `.env.development`:
+
+```bash
+# Database
+DATABASE_URL=postgresql://localhost/support_unicorn_development
+
+# OpenAI
+OPENAI_API_KEY=your_key_here
+
+# Turbopuffer
+TURBOPUFFER_API_KEY=your_key_here
+
+# Unstructured.io
+UNSTRUCTURED_API_KEY=your_key_here
+
+# AWS S3 (optional for local dev)
+AWS_ACCESS_KEY_ID=your_key
+AWS_SECRET_ACCESS_KEY=your_secret
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=your_bucket
+
+# Application URL
+APP_URL=http://localhost:3000
+```
+
+## Running the Application
+
+### Start Rails Server
+
+```bash
+bin/rails server
+```
+
+Visit `http://localhost:3000`
+
+### Start Background Jobs
+
+In a separate terminal:
+
+```bash
+bin/rails solid_queue:start
+```
+
+### Start ActionCable (if needed)
+
+ActionCable runs with the Rails server by default.
+
+## Development Tools
+
+### Rails Console
+
+```bash
+bin/rails console
+```
+
+### Database Console
+
+```bash
+bin/rails dbconsole
+```
+
+### Job Dashboard
+
+Visit `http://localhost:3000/jobs` to monitor background jobs.
+
+## Testing
+
+### Run Tests
+
+```bash
+# Run all tests
+bin/rails test
+
+# Run specific test file
+bin/rails test test/models/user_test.rb
+```
+
+### Test Widget Locally
+
+1. Create a ChatWidget in Rails console
+2. Get the widget token
+3. Create a test HTML page with the widget
+4. Open in browser
+
+## Common Tasks
+
+### Create Test Data
+
+```ruby
+# In Rails console
+org = Organization.create!(name: "Test Org", subdomain: "test")
+config = Configuration.create!(organization: org, name: "Test Config")
+agent = Agent.create!(organization: org, name: "Test Agent")
+```
+
+### Check Logs
+
+```bash
+# Development logs
+tail -f log/development.log
+
+# Filter for specific content
+tail -f log/development.log | grep "ProcessFileJob"
+```
+
+### Reset Database
+
+```bash
+bin/rails db:reset
+```
+
+## Debugging
+
+### Debugger
+
+Use `binding.break` or `debugger`:
+
+```ruby
+def some_method
+  binding.break  # Execution will pause here
+  # Your code
+end
+```
+
+### Logging
+
+```ruby
+Rails.logger.info "Debug message"
+Rails.logger.debug { "Expensive debug: #{expensive_operation}" }
+```
+
+## Next Steps
+
+<Card
+  title="Architecture"
+  icon="diagram"
+  href="/development/architecture"
+>
+  Learn about the architecture
+</Card>
+
+<Card
+  title="Deployment"
+  icon="rocket"
+  href="/development/deployment"
+>
+  Learn about deployment
+</Card>
+

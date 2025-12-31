@@ -1,0 +1,157 @@
+---
+title: "Widget Installation"
+description: "Embed the Support Unicorn chat widget on your website"
+---
+
+## Step 1: Generate Widget Token
+
+Widget tokens are automatically generated when creating a ChatWidget:
+
+```ruby
+# In Rails console or your application
+widget = ChatWidget.create!(
+  name: "My Website Chat",
+  organization: organization,
+  configuration: configuration,
+  enabled: true
+)
+
+# widget.widget_token will be auto-generated (e.g., "wgt_abc123...")
+puts widget.widget_token
+```
+
+Save this token - you'll need it for the next step.
+
+## Step 2: Add to Your Website
+
+Add this code to your website before the closing `</body>` tag:
+
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_YOUR_TOKEN_HERE',
+    position: 'right',
+    locale: 'en',
+    primaryColor: '#1f77b4',
+    welcomeMessage: 'Hi! How can we help you?'
+  };
+</script>
+<script src="https://your-support-unicorn-instance.com/sdk.js"></script>
+```
+
+## Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `baseUrl` | string | *required* | Your Support Unicorn instance URL |
+| `widgetToken` | string | *required* | Widget authentication token |
+| `position` | string | `'right'` | Widget position ('left' or 'right') |
+| `locale` | string | `'en'` | Language code |
+| `primaryColor` | string | `'#1f77b4'` | Theme color (hex) |
+| `welcomeMessage` | string | `'Hi! How can we help you?'` | Welcome message |
+| `hideMessageBubble` | boolean | `false` | Hide chat bubble |
+
+## Example: Full HTML Page
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website</title>
+</head>
+<body>
+  <h1>Welcome to My Website</h1>
+  
+  <!-- Your website content -->
+  
+  <!-- Support Unicorn Widget -->
+  <script>
+    window.supportUnicornSettings = {
+      widgetToken: 'wgt_abc123def456',
+      position: 'right',
+      locale: 'en',
+      primaryColor: '#590088',
+      welcomeMessage: 'Hello! How can we help you today?'
+    };
+  </script>
+  <script src="https://support.example.com/sdk.js"></script>
+</body>
+</html>
+```
+
+## Testing Locally
+
+For local development, use `http://localhost:3000`:
+
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_YOUR_TOKEN_HERE'
+  };
+</script>
+<script src="http://localhost:3000/sdk.js"></script>
+```
+
+## Security
+
+### Widget Token Authentication
+
+- Widget tokens are generated using nanoid (format: `wgt_XXXXXXXXXXXXXXXX`)
+- Tokens are validated on both HTTP and WebSocket connections
+- Invalid or disabled tokens are rejected
+- Tokens map to specific Organization + Configuration
+
+### CORS
+
+The WidgetsController sets CORS headers to allow embedding:
+
+```
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, OPTIONS
+```
+
+### Iframe Isolation
+
+- Widget runs in sandboxed iframe
+- Parent-iframe communication via `postMessage`
+- Origin validation on all messages
+
+## Troubleshooting
+
+### Widget not loading
+
+- Check `widgetToken` is correct
+- Verify ChatWidget is enabled
+- Check browser console for errors
+- Verify CORS is working
+
+### WebSocket connection failed
+
+- Ensure configuration is set
+- Check ActionCable is mounted at `/cable`
+- Verify `widgetToken` authentication
+
+### Messages not sending
+
+- Check Slack integration is configured (if using Slack)
+- Verify configuration has valid sink_main (Slack channel)
+- Check Rails logs for errors
+
+## Next Steps
+
+<Card
+  title="Configuration"
+  icon="settings"
+  href="/widget/configuration"
+>
+  Customize widget appearance and behavior
+</Card>
+
+<Card
+  title="JavaScript API"
+  icon="code"
+  href="/widget/javascript-api"
+>
+  Programmatically control the widget
+</Card>
+

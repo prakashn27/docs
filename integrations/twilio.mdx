@@ -1,0 +1,183 @@
+---
+title: "Twilio Integration"
+description: "Connect Support Unicorn with Twilio for SMS and WhatsApp messaging"
+---
+
+## Overview
+
+The Twilio integration enables:
+
+- **SMS messaging** via Twilio
+- **WhatsApp messaging** via Twilio
+- **AI-powered responses** to customer messages
+- **Bidirectional communication** (send and receive)
+- **Multi-channel support** alongside other channels
+
+## Setup
+
+### Step 1: Create Twilio Account
+
+1. Go to [twilio.com](https://www.twilio.com) and sign up
+2. Complete account verification
+3. Get your **Account SID** and **Auth Token** from the dashboard
+
+### Step 2: Get Phone Numbers
+
+#### For SMS
+
+1. In Twilio Console, go to **Phone Numbers** → **Buy a number**
+2. Select a number with **SMS** capability
+3. Purchase the number
+
+#### For WhatsApp
+
+1. Go to **Messaging** → **Try it out** → **Send a WhatsApp message**
+2. Use the **Sandbox number** for testing (starts with `whatsapp:+`)
+3. For production, request WhatsApp approval from Twilio
+
+### Step 3: Configure Webhooks
+
+#### SMS Webhook
+
+1. In Twilio Console, go to your phone number
+2. Under **Messaging**, set **Webhook URL**:
+   ```
+   https://your-domain.com/twilio/sms/webhook/:channel_id
+   ```
+3. Set **HTTP method** to **POST**
+
+#### WhatsApp Webhook
+
+1. Go to **Messaging** → **Try it out** → **Send a WhatsApp message**
+2. Set **When a message comes in** webhook:
+   ```
+   https://your-domain.com/twilio/whatsapp/webhook/:channel_id
+   ```
+3. Set **HTTP method** to **POST**
+
+### Step 4: Configure in Support Unicorn
+
+1. Navigate to your Support Unicorn instance
+2. Go to **Settings** → **Integrations** → **Twilio**
+3. Enter:
+   - **Account SID**
+   - **Auth Token**
+   - **From phone number** (SMS)
+   - **WhatsApp number** (if using WhatsApp)
+4. Click **"Save"**
+
+## Usage
+
+### Sending Messages
+
+#### Via API
+
+```ruby
+# In Rails console or your code
+twilio_service = TwilioService.new(organization)
+
+# Send SMS
+twilio_service.send_sms(
+  to: '+1234567890',
+  from: '+0987654321',
+  body: 'Hello! How can we help you?'
+)
+
+# Send WhatsApp
+twilio_service.send_whatsapp(
+  to: 'whatsapp:+1234567890',
+  from: 'whatsapp:+0987654321',
+  body: 'Hello! How can we help you?'
+)
+```
+
+#### Via Routes
+
+```
+POST /twilio/sms/send/:organization_id/:from
+POST /twilio/whatsapp/send/:organization_id/:from
+```
+
+### Receiving Messages
+
+When a customer sends a message:
+
+1. Twilio sends a webhook to Support Unicorn
+2. The message is processed by `LiveChatService`
+3. If AI is enabled, the agent responds automatically
+4. Response is sent back via Twilio
+
+### AI Agent Integration
+
+1. Create or select an Agent
+2. Configure knowledge base
+3. Link agent to Configuration
+4. AI will respond to incoming messages
+
+## Routes
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/twilio/sms/send/:organization_id/:from` | POST | Send SMS message |
+| `/twilio/sms/webhook/:channel_id` | POST | Receive SMS webhook |
+| `/twilio/whatsapp/send/:organization_id/:from` | POST | Send WhatsApp message |
+| `/twilio/whatsapp/webhook/:channel_id` | POST | Receive WhatsApp webhook |
+
+## Configuration
+
+### Environment Variables
+
+```bash
+TWILIO_ACCOUNT_SID=your_account_sid
+TWILIO_AUTH_TOKEN=your_auth_token
+```
+
+### Channel Configuration
+
+Each channel can be configured with:
+
+- **Phone number** (SMS or WhatsApp)
+- **Organization** mapping
+- **Configuration** (for AI agent)
+
+## Troubleshooting
+
+### Messages not sending
+
+- Verify Account SID and Auth Token
+- Check phone number is correct format (E.164)
+- Verify webhook URL is accessible
+- Check Twilio logs for errors
+
+### Not receiving messages
+
+- Verify webhook is configured in Twilio
+- Check webhook URL is correct
+- Ensure SSL certificate is valid (HTTPS required)
+- Review Rails logs for webhook errors
+
+### WhatsApp Sandbox
+
+For testing WhatsApp, you need to:
+
+1. Join the Twilio Sandbox (send code to Twilio number)
+2. Use sandbox number format: `whatsapp:+14155238886`
+3. For production, request WhatsApp approval
+
+## Best Practices
+
+- **Rate limiting**: Be mindful of Twilio rate limits
+- **Message length**: SMS has 160 character limit (use concatenation for longer)
+- **Error handling**: Implement retry logic for failed sends
+- **Webhook security**: Validate webhook signatures (future enhancement)
+
+## Next Steps
+
+<Card
+  title="Google Integration"
+  icon="google"
+  href="/integrations/google"
+>
+  Connect with Google services
+</Card>
+

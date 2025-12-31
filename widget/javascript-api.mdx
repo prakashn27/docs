@@ -1,0 +1,194 @@
+---
+title: "JavaScript API"
+description: "Programmatically control the chat widget"
+---
+
+## Accessing the API
+
+Once the widget SDK is loaded, interact with it via `window.$supportUnicorn`:
+
+```javascript
+// Check if widget is loaded
+if (window.$supportUnicorn) {
+  // Widget is ready
+}
+```
+
+## Methods
+
+### Open/Close Widget
+
+```javascript
+// Open widget
+window.$supportUnicorn.toggle(true);
+
+// Close widget
+window.$supportUnicorn.toggle(false);
+
+// Toggle current state
+window.$supportUnicorn.toggle();
+```
+
+### Identify User
+
+Identify the current user to provide context:
+
+```javascript
+window.$supportUnicorn.setUser('user_123', {
+  name: 'John Doe',
+  email: 'john@example.com',
+  avatar_url: 'https://example.com/avatar.jpg'
+});
+```
+
+### Set Custom Attributes
+
+Add custom attributes for better context:
+
+```javascript
+window.$supportUnicorn.setCustomAttributes({
+  plan: 'premium',
+  company: 'Acme Inc',
+  userId: '12345',
+  subscriptionStatus: 'active'
+});
+```
+
+### Show/Hide Bubble
+
+Control bubble visibility:
+
+```javascript
+// Hide bubble
+window.$supportUnicorn.toggleBubbleVisibility('hide');
+
+// Show bubble
+window.$supportUnicorn.toggleBubbleVisibility('show');
+```
+
+### Change Locale
+
+Update the widget language:
+
+```javascript
+window.$supportUnicorn.setLocale('es'); // Spanish
+window.$supportUnicorn.setLocale('fr'); // French
+```
+
+### Change Theme Color
+
+Update the primary color:
+
+```javascript
+window.$supportUnicorn.setPrimaryColor('#e91e63');
+```
+
+### Reset Widget
+
+Clear all cookies and reload widget:
+
+```javascript
+window.$supportUnicorn.reset();
+```
+
+### Open in Popup Window
+
+Open chat in a popup window:
+
+```javascript
+window.$supportUnicorn.popoutChatWindow();
+```
+
+## Example: User Identification Flow
+
+```javascript
+// When user logs in
+function onUserLogin(user) {
+  window.$supportUnicorn.setUser(user.id, {
+    name: user.name,
+    email: user.email,
+    avatar_url: user.avatar
+  });
+  
+  window.$supportUnicorn.setCustomAttributes({
+    plan: user.subscriptionPlan,
+    company: user.companyName
+  });
+}
+
+// When user logs out
+function onUserLogout() {
+  window.$supportUnicorn.reset();
+}
+```
+
+## Example: Conditional Display
+
+```javascript
+// Hide widget for logged-in admins
+if (user.isAdmin) {
+  window.$supportUnicorn.toggleBubbleVisibility('hide');
+} else {
+  window.$supportUnicorn.toggleBubbleVisibility('show');
+}
+```
+
+## Example: Dynamic Theming
+
+```javascript
+// Change theme based on time of day
+const hour = new Date().getHours();
+if (hour >= 18 || hour < 6) {
+  window.$supportUnicorn.setPrimaryColor('#1a1a1a'); // Dark theme
+} else {
+  window.$supportUnicorn.setPrimaryColor('#590088'); // Light theme
+}
+```
+
+## Framework Compatibility
+
+The SDK automatically handles navigation in:
+
+- **Rails Turbo** - Preserves widget across page navigations
+- **Turbolinks** - Legacy Turbolinks support
+- **Astro** - Astro framework support
+- **Standard SPAs** - Works with any single-page app
+
+## Events (Future)
+
+Future versions may support event listeners:
+
+```javascript
+// Example (not yet implemented)
+window.$supportUnicorn.on('message', (message) => {
+  console.log('New message:', message);
+});
+
+window.$supportUnicorn.on('widget:opened', () => {
+  console.log('Widget opened');
+});
+```
+
+## Troubleshooting
+
+### API not available
+
+- Ensure SDK script is loaded: `window.$supportUnicorn` should exist
+- Check browser console for errors
+- Verify widget token is valid
+
+### Methods not working
+
+- Check widget is fully loaded before calling methods
+- Wrap calls in a check: `if (window.$supportUnicorn) { ... }`
+
+## Next Steps
+
+<Card
+  title="Widget Overview"
+  icon="info"
+  href="/widget/overview"
+>
+  Learn more about widget architecture
+</Card>
+

@@ -1,0 +1,151 @@
+---
+title: "Zendesk Integration"
+description: "Connect Support Unicorn with Zendesk for ticket management"
+---
+
+## Overview
+
+The Zendesk integration enables:
+
+- **AI-powered ticket responses** via Zendesk webhooks
+- **Sidebar app** for ticket management
+- **Automatic AI responses** to customer comments
+- **Toggle AI on/off** per ticket
+- **Seamless handoff** between AI and human agents
+
+## Installation
+
+### Step 1: OAuth Connection
+
+1. Navigate to your Support Unicorn instance
+2. Go to **Settings** → **Integrations** → **Zendesk**
+3. Click **"Connect Zendesk"**
+4. You'll be redirected to Zendesk for authorization
+5. Authorize the app
+6. You'll be redirected back with the connection established
+
+### Step 2: Configure Webhook
+
+1. In Zendesk, go to **Admin** → **Apps and integrations** → **Webhooks**
+2. Click **"Create webhook"**
+3. Set:
+   - **Endpoint URL**: `https://your-domain.com/zendesk/webhook`
+   - **Request method**: POST
+   - **Request format**: JSON
+4. Subscribe to events:
+   - `ticket.comment.created`
+5. Save the webhook
+
+### Step 3: Configure Agent
+
+1. In Support Unicorn, go to **Zendesk Installations**
+2. Find your installation
+3. Click **"Configure"**
+4. Select an **AI Agent** from the dropdown
+5. Click **"Save"**
+
+### Step 4: Install Sidebar App (Optional)
+
+See the [Zendesk Sidebar App Installation Guide](/setup/zendesk-sidebar) for detailed instructions.
+
+## Usage
+
+### Automatic AI Responses
+
+When a customer adds a comment to a Zendesk ticket:
+
+1. Zendesk sends a webhook to Support Unicorn
+2. The AI agent processes the comment
+3. An **internal note** (not public) is added to the ticket with the AI response
+4. The response is based on your agent's knowledge base
+
+### Toggling AI per Ticket
+
+Use the sidebar app to enable/disable AI for specific tickets:
+
+1. Open a ticket in Zendesk
+2. Find the **"Support Unicorn AI Agent"** section in the sidebar
+3. Click **"Disable AI"** or **"Enable AI"** as needed
+
+### Human Handoff
+
+When AI can't handle a request:
+
+1. The procedure can trigger an escalation
+2. The ticket is marked for human review
+3. Your team is notified (via Slack, if configured)
+
+## API Endpoints
+
+The Zendesk integration uses these API endpoints:
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/zendesk/install` | GET | OAuth installation page |
+| `/zendesk/install` | POST | Create installation |
+| `/zendesk/webhook` | POST | Receive Zendesk events |
+| `/api/zendesk_installations/:id/ai_status` | GET | Get AI status for ticket |
+| `/api/zendesk_installations/:id/toggle_ai` | POST | Toggle AI on/off |
+
+## Configuration
+
+### Agent Selection
+
+Each Zendesk installation can be linked to one AI agent:
+
+```ruby
+# In Rails console
+installation = ZendeskInstallation.find(id)
+installation.update!(
+  agent: agent
+)
+```
+
+### Webhook Security
+
+Webhooks are secured using:
+- API key authentication
+- Installation ID validation
+- Ticket ID verification
+
+## Troubleshooting
+
+### AI not responding to tickets
+
+- Check webhook is configured in Zendesk
+- Verify agent is selected for installation
+- Check agent has knowledge base content
+- Review Rails logs for webhook errors
+
+### Sidebar app not appearing
+
+- Ensure sidebar app is installed (see [setup guide](/setup/zendesk-sidebar))
+- Check app is enabled in Zendesk
+- Verify API base URL is accessible
+- Check browser console for errors
+
+### Webhook not receiving events
+
+- Verify webhook URL is correct
+- Check webhook is active in Zendesk
+- Ensure SSL certificate is valid (HTTPS required)
+- Test webhook delivery in Zendesk dashboard
+
+## Next Steps
+
+<Card
+  title="Sidebar App Installation"
+  icon="wrench"
+  href="/setup/zendesk-sidebar"
+>
+  Install the Zendesk sidebar app for ticket management
+</Card>
+
+<Card
+  title="Twilio Integration"
+  icon="phone"
+  href="/integrations/twilio"
+>
+  Connect with Twilio for SMS and WhatsApp
+</Card>
+

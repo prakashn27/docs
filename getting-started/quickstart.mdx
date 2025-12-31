@@ -1,0 +1,207 @@
+---
+title: "Quickstart"
+description: "Get your first AI agent up and running in minutes"
+---
+
+## Step 1: Create an Organization
+
+First, you'll need to create an organization. This can be done through the web interface or Rails console:
+
+```ruby
+# In Rails console (bin/rails console)
+org = Organization.create!(
+  name: "My Company",
+  subdomain: "mycompany"
+)
+```
+
+## Step 2: Create a Configuration
+
+A configuration defines how your AI agent behaves:
+
+```ruby
+config = Configuration.create!(
+  organization: org,
+  name: "Support Bot",
+  ai_mode: "rag",  # or "chat" for simple chat
+  timeout_seconds: 30
+)
+```
+
+## Step 3: Create an Agent
+
+An agent is your AI assistant that will respond to customer queries:
+
+```ruby
+agent = Agent.create!(
+  organization: org,
+  name: "Customer Support Agent",
+  description: "Helps customers with common questions"
+)
+```
+
+## Step 4: Add Knowledge Base Content
+
+### Option A: Upload Files
+
+```ruby
+# Create a file data source
+file_ds = FileDataSource.create!(
+  organization: org.id,
+  file: File.open("path/to/your/document.pdf")
+)
+
+# Link to agent
+AgentDataSource.create!(
+  agent: agent,
+  data_source: file_ds
+)
+```
+
+Files are automatically processed:
+1. Uploaded to S3 via Active Storage
+2. Parsed by Unstructured.io
+3. Chunked and embedded using OpenAI
+4. Stored in Turbopuffer for vector search
+
+### Option B: Add Q&A Pairs
+
+```ruby
+qna = Qna.create!(
+  organization: org.id,
+  question: "What are your business hours?",
+  answer: "We're open Monday-Friday, 9 AM - 5 PM EST"
+)
+
+# Link to agent
+AgentDataSource.create!(
+  agent: agent,
+  data_source: QnaDataSource.create!(
+    organization: org.id,
+    qna: qna
+  )
+)
+```
+
+### Option C: Add Text Content
+
+```ruby
+text_ds = TextDataSource.create!(
+  organization: org.id,
+  title: "Product Features",
+  content: "Our product includes..."
+)
+
+# Link to agent
+AgentDataSource.create!(
+  agent: agent,
+  data_source: text_ds
+)
+```
+
+## Step 5: Test Your Agent
+
+### Via Web Interface
+
+1. Navigate to `http://localhost:3000/agents/:id/chat`
+2. Start a conversation with your agent
+3. Ask questions based on your knowledge base
+
+### Via Rails Console
+
+```ruby
+# Create a test conversation
+conversation = Conversation.create!(
+  organization: org,
+  configuration: config,
+  channel_type: "livechat"
+)
+
+# Send a message
+message = Message.create!(
+  conversation: conversation,
+  content: "What are your business hours?",
+  sender_type: "user"
+)
+
+# Process with AI
+service = AiChatService.new(conversation)
+response = service.process_message(message)
+
+puts response.content
+```
+
+## Step 6: Embed the Widget (Optional)
+
+If you want to use the live chat widget:
+
+1. **Create a ChatWidget:**
+   ```ruby
+   widget = ChatWidget.create!(
+     name: "Website Chat",
+     organization: org,
+     configuration: config,
+     enabled: true
+   )
+   
+   puts widget.widget_token  # Save this token
+   ```
+
+2. **Add to your website:**
+   ```html
+   <script>
+     window.supportUnicornSettings = {
+       widgetToken: 'wgt_YOUR_TOKEN_HERE'
+     };
+   </script>
+   <script src="http://localhost:3000/sdk.js"></script>
+   ```
+
+See the [Widget Integration Guide](/widget/installation) for more details.
+
+## Common Issues
+
+### Agent not responding
+
+- **Check knowledge base**: Ensure you've added data sources to your agent
+- **Check processing status**: File uploads may still be processing
+- **Check logs**: Look for errors in `log/development.log`
+
+### Files not processing
+
+- **Check SolidQueue**: Ensure `bin/rails solid_queue:start` is running
+- **Check environment variables**: Verify `UNSTRUCTURED_API_KEY`, `OPENAI_API_KEY`, and `TURBOPUFFER_API_KEY` are set
+- **Check job status**: Visit `http://localhost:3000/jobs` to see background jobs
+
+### No credits available
+
+- Organizations start with 50 free credits/month
+- Check credits: `org.credits_balance`
+- See [Billing Setup](/setup/billing) for subscription configuration
+
+## Next Steps
+
+<Card
+  title="Widget Integration"
+  icon="code"
+  href="/widget/installation"
+>
+  Embed the chat widget on your website
+</Card>
+
+<Card
+  title="Procedures & Workflows"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Create structured procedures with conditional logic
+</Card>
+
+<Card
+  title="Integrations"
+  icon="plug"
+  href="/integrations/slack"
+>
+  Connect with Slack, Zendesk, and Twilio
+</Card>
+

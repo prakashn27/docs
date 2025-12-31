@@ -1,0 +1,132 @@
+---
+title: "Installation"
+description: "Set up Support Unicorn in your development environment"
+---
+
+## Prerequisites
+
+- **PostgreSQL** running locally
+- **Ruby 3.4.4**
+- **Rails 8.0.2**
+
+## Database Setup
+
+### Start PostgreSQL
+
+```bash
+# macOS (Homebrew)
+brew services start postgresql
+
+# Or manually
+pg_ctl -D /usr/local/var/postgres start
+```
+
+### Create and Migrate Databases
+
+```bash
+# Create databases
+bin/rails db:create
+
+# Run migrations
+bin/rails db:migrate
+
+# Run cable migrations for WebSocket support
+bin/rails db:migrate:cable
+```
+
+## Start the Server
+
+```bash
+bin/rails server
+```
+
+The application will be available at `http://localhost:3000`
+
+## WebSocket/ActionCable Notes
+
+This application uses SolidCable for ActionCable in both development and production environments. The cable migrations create the necessary `solid_cable_messages` table for WebSocket message persistence.
+
+## Environment Variables
+
+Create a `.env.development` file with the following variables:
+
+```bash
+# Database
+DATABASE_URL=postgresql://localhost/support_unicorn_development
+
+# OpenAI (for AI features)
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Turbopuffer (for vector search)
+TURBOPUFFER_API_KEY=your_turbopuffer_api_key_here
+TURBOPUFFER_REGION=gcp-us-east4
+
+# Unstructured.io (for file processing)
+UNSTRUCTURED_API_KEY=your_unstructured_api_key_here
+UNSTRUCTURED_API_URL=https://api.unstructuredapp.io
+
+# AWS S3 (for file storage)
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=your_bucket_name
+
+# Stripe (for billing - optional)
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Application URL
+APP_URL=http://localhost:3000
+```
+
+## Background Jobs
+
+Start SolidQueue for background job processing:
+
+```bash
+# In a separate terminal
+bin/rails solid_queue:start
+```
+
+This is required for:
+- File processing
+- Credit tracking
+- Webhook processing
+
+## Verify Installation
+
+1. **Check database connection:**
+   ```bash
+   bin/rails console
+   > ActiveRecord::Base.connection.current_database
+   ```
+
+2. **Check models:**
+   ```bash
+   > User.count
+   > Organization.count
+   ```
+
+3. **Visit the application:**
+   - Open `http://localhost:3000` in your browser
+   - You should see the home page
+
+## Next Steps
+
+<Card
+  title="Quickstart Guide"
+  icon="rocket"
+  href="/getting-started/quickstart"
+>
+  Create your first AI agent
+</Card>
+
+<Card
+  title="Development Setup"
+  icon="code"
+  href="/development/local-setup"
+>
+  Learn about local development workflows
+</Card>
+

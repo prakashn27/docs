@@ -1,0 +1,108 @@
+---
+title: "Widget Overview"
+description: "Learn about the Support Unicorn embeddable chat widget"
+---
+
+## What is the Chat Widget?
+
+The Support Unicorn Chat Widget is an embeddable, iframe-based chat widget that allows you to add live chat to any website with a simple JavaScript snippet. It provides:
+
+- **Iframe isolation** - Widget runs in isolated iframe for security
+- **ActionCable** - Real-time WebSocket communication
+- **Vanilla JavaScript** - No framework dependencies for SDK
+- **Tailwind CSS** - Modern, responsive styling
+- **Widget Token Auth** - Secure token-based authentication
+
+## How It Works
+
+1. **SDK loads** on your website
+2. **Widget iframe** is created and embedded
+3. **WebSocket connection** established via ActionCable
+4. **Messages** flow bidirectionally in real-time
+5. **AI agent** responds using your knowledge base
+
+## Architecture
+
+```
+┌─────────────────────────────────┐
+│  Your Website                   │
+│  ┌───────────────────────────┐  │
+│  │ SDK (sdk.js)             │  │
+│  │ - Creates iframe         │  │
+│  │ - Handles postMessage    │  │
+│  │ - Manages widget state   │  │
+│  └───────────────────────────┘  │
+│           │                      │
+│           ▼                      │
+│  ┌───────────────────────────┐  │
+│  │ Widget Iframe             │  │
+│  │ - Chat UI                 │  │
+│  │ - ActionCable connection  │  │
+│  │ - Message handling        │  │
+│  └───────────────────────────┘  │
+└─────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────┐
+│  Support Unicorn Server         │
+│  - WebSocket endpoint (/cable)  │
+│  - Message processing           │
+│  - AI agent responses           │
+└─────────────────────────────────┘
+```
+
+## Features
+
+<AccordionGroup>
+  <Accordion title="Real-time Messaging">
+    Uses ActionCable WebSockets for instant message delivery without polling.
+  </Accordion>
+  <Accordion title="Secure Authentication">
+    Widget tokens authenticate both HTTP and WebSocket connections.
+  </Accordion>
+  <Accordion title="Customizable">
+    Configure colors, position, locale, and welcome messages.
+  </Accordion>
+  <Accordion title="Framework Compatible">
+    Works with Rails Turbo, Turbolinks, Astro, and standard SPAs.
+  </Accordion>
+  <Accordion title="User Identification">
+    Identify users and set custom attributes for better context.
+  </Accordion>
+</AccordionGroup>
+
+## Routes
+
+| Route | Method | Description |
+|-------|--------|------------|
+| `/sdk.js` | GET | SDK JavaScript file |
+| `/widget` | GET | Widget HTML interface |
+| `/widget.js` | GET | Widget JavaScript |
+| `/cable` | WebSocket | ActionCable WebSocket endpoint |
+
+## Next Steps
+
+<Card
+  title="Installation Guide"
+  icon="download"
+  href="/widget/installation"
+>
+  Learn how to embed the widget on your website
+</Card>
+
+<Card
+  title="Configuration"
+  icon="settings"
+  href="/widget/configuration"
+>
+  Customize widget appearance and behavior
+</Card>
+
+<Card
+  title="JavaScript API"
+  icon="code"
+  href="/widget/javascript-api"
+>
+  Programmatically control the widget
+</Card>
+

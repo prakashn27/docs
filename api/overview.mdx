@@ -1,0 +1,134 @@
+---
+title: "API Overview"
+description: "Introduction to the Support Unicorn API"
+---
+
+## API Overview
+
+The Support Unicorn API provides programmatic access to manage agents, conversations, and integrations.
+
+## Base URL
+
+```
+Development: http://localhost:3000
+Production: https://your-domain.com
+```
+
+## Authentication
+
+Most API endpoints require authentication. See the [Authentication Guide](/api/authentication) for details.
+
+## API Endpoints
+
+### Widget API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/sdk.js` | GET | Widget SDK JavaScript |
+| `/widget` | GET | Widget HTML interface |
+| `/widget.js` | GET | Widget JavaScript |
+
+### Conversations
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/conversations` | GET | List conversations |
+| `/conversations/:id` | GET | Get conversation |
+| `/conversations/:id/handoff` | GET | Get handoff history |
+
+### Agents
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/agents` | GET | List agents |
+| `/agents/:id` | GET | Get agent |
+| `/agents/:id/chat` | GET | Agent chat page |
+| `/agents/:id/chat` | POST | Send message to agent |
+
+### Data Sources
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/agents/:id/data_sources` | GET | List agent data sources |
+| `/agents/:id/data_sources/files` | POST | Upload file |
+| `/agents/:id/data_sources/texts` | POST | Create text data source |
+| `/agents/:id/data_sources/qnas` | POST | Create Q&A |
+
+### Webhooks
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/slack/events` | POST | Slack Events API |
+| `/slack/interactive` | POST | Slack Interactive Components |
+| `/zendesk/webhook` | POST | Zendesk webhook |
+| `/twilio/sms/webhook/:channel_id` | POST | Twilio SMS webhook |
+| `/twilio/whatsapp/webhook/:channel_id` | POST | Twilio WhatsApp webhook |
+| `/stripe/webhook` | POST | Stripe webhook |
+
+## Response Format
+
+### Success Response
+
+```json
+{
+  "status": "success",
+  "data": {
+    // Response data
+  }
+}
+```
+
+### Error Response
+
+```json
+{
+  "status": "error",
+  "error": {
+    "message": "Error description",
+    "code": "ERROR_CODE"
+  }
+}
+```
+
+## Rate Limiting
+
+API rate limits may apply. Check response headers for rate limit information:
+
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1640995200
+```
+
+## WebSocket API
+
+### ActionCable Connection
+
+Connect to WebSocket endpoint:
+
+```
+ws://localhost:3000/cable?widget_token=wgt_...&session_id=...
+```
+
+### Channels
+
+- `session_{session_id}`: Widget conversation channel
+
+## Next Steps
+
+<Card
+  title="Authentication"
+  icon="key"
+  href="/api/authentication"
+>
+  Learn about API authentication
+</Card>
+
+<Card
+  title="Webhooks"
+  icon="webhook"
+  href="/api/webhooks"
+>
+  Set up webhooks for integrations
+</Card>
+

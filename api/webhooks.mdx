@@ -1,0 +1,205 @@
+---
+title: "Webhooks"
+description: "Set up webhooks for integrations"
+---
+
+## Overview
+
+Webhooks allow external services to send events to Support Unicorn. They are used for:
+
+- **Slack Events API**: Receive Slack messages and events
+- **Zendesk**: Receive ticket comments and updates
+- **Twilio**: Receive SMS and WhatsApp messages
+- **Stripe**: Receive payment and subscription events
+
+## Webhook Endpoints
+
+### Slack
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/slack/events` | POST | Slack Events API |
+| `/slack/interactive` | POST | Slack Interactive Components |
+
+### Zendesk
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/zendesk/webhook` | POST | Zendesk ticket events |
+
+### Twilio
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/twilio/sms/webhook/:channel_id` | POST | SMS messages |
+| `/twilio/whatsapp/webhook/:channel_id` | POST | WhatsApp messages |
+
+### Stripe
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/stripe/webhook` | POST | Stripe payment events |
+
+## Webhook Security
+
+### Signature Verification
+
+Webhooks from external services are verified using signatures:
+
+- **Slack**: Verifies request signature using signing secret
+- **Stripe**: Verifies webhook signature using webhook secret
+- **Twilio**: Validates request authenticity
+
+### SSL/TLS
+
+All webhook endpoints require HTTPS in production:
+
+- Use valid SSL certificates
+- Zendesk and other services require HTTPS
+- Local development can use HTTP (or ngrok for testing)
+
+## Setting Up Webhooks
+
+### Slack
+
+1. Go to [api.slack.com/apps](https://api.slack.com/apps)
+2. Select your app
+3. Go to **Event Subscriptions**
+4. Set **Request URL**: `https://your-domain.com/slack/events`
+5. Subscribe to events:
+   - `message.channels`
+   - `message.groups`
+   - `message.im`
+   - `app_mention`
+
+### Zendesk
+
+1. Go to Zendesk Admin → **Apps and integrations** → **Webhooks**
+2. Click **"Create webhook"**
+3. Set **Endpoint URL**: `https://your-domain.com/zendesk/webhook`
+4. Subscribe to events:
+   - `ticket.comment.created`
+
+### Twilio
+
+1. In Twilio Console, go to your phone number
+2. Set **Webhook URL**: `https://your-domain.com/twilio/sms/webhook/:channel_id`
+3. Set **HTTP method**: POST
+
+### Stripe
+
+1. Go to [dashboard.stripe.com/webhooks](https://dashboard.stripe.com/webhooks)
+2. Click **"+ Add endpoint"**
+3. Set **Endpoint URL**: `https://your-domain.com/stripe/webhook`
+4. Select events:
+   - `checkout.session.completed`
+   - `invoice.paid`
+   - `customer.subscription.created`
+   - etc.
+
+## Testing Webhooks
+
+### Local Development
+
+For local testing, use ngrok:
+
+```bash
+# Install ngrok
+brew install ngrok
+
+# Start tunnel
+ngrok http 3000
+
+# Use the HTTPS URL in webhook configuration
+# Example: https://abc123.ngrok.io/slack/events
+```
+
+### Stripe CLI
+
+For Stripe webhooks, use Stripe CLI:
+
+```bash
+# Install Stripe CLI
+brew install stripe/stripe-cli/stripe
+
+# Forward webhooks
+stripe listen --forward-to localhost:3000/stripe/webhook
+```
+
+## Webhook Payloads
+
+### Slack Event
+
+```json
+{
+  "type": "event_callback",
+  "event": {
+    "type": "message",
+    "text": "Hello",
+    "user": "U123456",
+    "channel": "C123456"
+  }
+}
+```
+
+### Zendesk Ticket Comment
+
+```json
+{
+  "ticket": {
+    "id": 12345,
+    "subject": "Help needed"
+  },
+  "comment": {
+    "body": "I need help with my order"
+  }
+}
+```
+
+### Twilio SMS
+
+```
+From=+1234567890
+To=+0987654321
+Body=Hello
+```
+
+## Troubleshooting
+
+### Webhook not receiving events
+
+- Verify webhook URL is correct
+- Check webhook is active in external service
+- Ensure SSL certificate is valid (HTTPS required)
+- Test webhook delivery in external service dashboard
+
+### Signature verification failed
+
+- Verify signing secret matches
+- Check signature header is included
+- Review signature verification logic
+
+### Webhook timeout
+
+- Ensure webhook handler responds quickly
+- Process heavy work in background jobs
+- Return 200 OK immediately
+
+## Best Practices
+
+1. **Respond quickly**: Return 200 OK immediately, process async
+2. **Idempotency**: Handle duplicate webhooks gracefully
+3. **Error handling**: Log errors and retry if needed
+4. **Security**: Always verify webhook signatures
+5. **Monitoring**: Monitor webhook delivery and failures
+
+## Next Steps
+
+<Card
+  title="API Overview"
+  icon="api"
+  href="/api/overview"
+>
+  Learn more about the API
+</Card>
+

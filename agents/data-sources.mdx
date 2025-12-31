@@ -1,0 +1,175 @@
+---
+title: "Data Sources"
+description: "Build your AI agent's knowledge base"
+---
+
+## Overview
+
+Data sources are the foundation of your AI agent's knowledge base. They provide the information the agent uses to answer customer questions.
+
+## Types of Data Sources
+
+### Files
+
+Upload documents (PDF, Word, text, etc.) that are automatically processed:
+
+1. **Uploaded to S3** via Active Storage
+2. **Parsed by Unstructured.io** to extract text
+3. **Chunked** into smaller pieces
+4. **Embedded** using OpenAI
+5. **Stored in Turbopuffer** for vector search
+
+**Supported formats**:
+- PDF (`application/pdf`)
+- Word Documents (`.docx`, `.doc`)
+- Text files (`.txt`)
+- HTML (`.html`)
+- Markdown (`.md`)
+- PowerPoint (`.pptx`, `.ppt`)
+
+**File size limit**: 50MB
+
+### Q&A Pairs
+
+Create question-answer pairs for common queries:
+
+```ruby
+qna = Qna.create!(
+  organization: organization.id,
+  question: "What are your business hours?",
+  answer: "We're open Monday-Friday, 9 AM - 5 PM EST"
+)
+```
+
+### Text Content
+
+Add custom text snippets:
+
+```ruby
+text_ds = TextDataSource.create!(
+  organization: organization.id,
+  title: "Product Features",
+  content: "Our product includes feature A, B, and C..."
+)
+```
+
+### Websites
+
+Scrape website content:
+
+```ruby
+website_ds = WebsiteDataSource.create!(
+  organization: organization.id,
+  url: "https://example.com",
+  enabled: true
+)
+
+# Trigger crawl
+website_ds.crawl
+```
+
+## Adding Data Sources
+
+### Via Web Interface
+
+1. Navigate to **Agents** → **Your Agent** → **Data Sources**
+2. Choose data source type
+3. Upload file, add Q&A, or enter text
+4. Data source is automatically linked to agent
+
+### Via Rails Console
+
+```ruby
+# Create file data source
+file_ds = FileDataSource.create!(
+  organization: organization.id,
+  file: File.open("path/to/document.pdf")
+)
+
+# Link to agent
+AgentDataSource.create!(
+  agent: agent,
+  data_source: file_ds
+)
+```
+
+## Processing Status
+
+File data sources track processing status:
+
+```ruby
+file_ds = FileDataSource.find(id)
+metadata = file_ds.metadata
+
+# Check status
+metadata["processing_status"]  # "processing", "completed", "failed"
+
+# Results
+metadata["chunk_count"]        # Number of chunks uploaded
+metadata["total_chunks"]       # Total chunks extracted
+metadata["error"]              # Error message if failed
+```
+
+## Querying Data Sources
+
+Once processed, data sources are searchable via vector search:
+
+```ruby
+# Get Turbopuffer service
+turbopuffer = TurbopufferService.for_organization(organization_id)
+
+# Search for similar content
+result = turbopuffer.query_similar(
+  "What is the revenue forecast?",
+  top_k: 10
+)
+
+# Filter by specific file
+result = turbopuffer.query_similar(
+  "What is the revenue forecast?",
+  top_k: 10,
+  filters: { file_id: ["Equals", file_data_source.id] }
+)
+```
+
+## Best Practices
+
+1. **Organize by topic**: Group related data sources together
+2. **Keep content updated**: Update data sources as information changes
+3. **Use Q&As for common questions**: Faster and more accurate than searching documents
+4. **Test after adding**: Verify agent can find and use new content
+5. **Monitor processing**: Check file processing status before relying on new files
+
+## Troubleshooting
+
+### Files not processing
+
+- Check SolidQueue is running: `bin/rails solid_queue:start`
+- Verify environment variables: `UNSTRUCTURED_API_KEY`, `OPENAI_API_KEY`, `TURBOPUFFER_API_KEY`
+- Check job dashboard: `http://localhost:3000/jobs`
+
+### Agent not finding content
+
+- Verify data source is linked to agent
+- Check processing status is "completed"
+- Test vector search directly
+- Review agent's knowledge base in UI
+
+## Next Steps
+
+<Card
+  title="Procedures"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Create structured procedures with conditional logic
+</Card>
+
+<Card
+  title="File Processing Setup"
+  icon="wrench"
+  href="/setup/file-processing"
+>
+  Configure file processing pipeline
+</Card>
+

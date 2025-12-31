@@ -1,0 +1,197 @@
+---
+title: "Procedures"
+description: "Create structured workflows with conditional logic and actions"
+---
+
+## What are Procedures?
+
+Procedures are document-style workflows that guide your AI agent through structured processes. They support conditional logic, data fetching, and escalations.
+
+## Procedure Syntax
+
+Procedures use special syntax markers embedded in natural language:
+
+### Actions: `{{action:action_name}}`
+
+Call a data connector to fetch data from external systems:
+
+```markdown
+1. Ask the customer for their order number
+2. Fetch order details using {{action:get_order_details}}
+3. Tell them their order status
+```
+
+### Conditions: `{{if:condition}} ... {{else}} ... {{endif}}`
+
+Add branching logic based on data:
+
+```markdown
+{{if:order_status == "shipped"}}
+Your order has been shipped! Tracking: {{tracking_number}}
+{{else}}
+Your order is still being processed. Expected: {{estimated_ship_date}}
+{{endif}}
+```
+
+### Escalations: `{{escalate:escalation_path_id}}`
+
+Escalate to human support:
+
+```markdown
+If the customer needs more help:
+{{escalate:escal_path_support}}
+I've connected you with a human agent.
+```
+
+## Complete Example
+
+```markdown
+# Order Status Check
+
+1. Ask the customer for their order number
+2. Fetch order details using {{action:get_order_details}}
+3. Check the order status:
+   {{if:order_status == "shipped"}}
+   - Your order has been shipped!
+   - Tracking number: {{tracking_number}}
+   - Expected delivery: {{delivery_date}}
+   {{else}}
+   - Your order is still being processed
+   - Current status: {{order_status}}
+   - Estimated shipping: {{estimated_ship_date}}
+   {{endif}}
+
+4. If the customer needs more help:
+   {{escalate:escal_path_support}}
+   I've connected you with our support team.
+```
+
+## Creating Procedures
+
+### Step 1: Create Agent Actions
+
+First, create the actions your procedure will use:
+
+```ruby
+# In Rails console or via UI
+action = AgentAction.create!(
+  agent: agent,
+  name: "get_order_details",
+  description: "Fetch order details from API",
+  http_method: "GET",
+  url: "https://api.example.com/orders/{{order_number}}",
+  enabled: true
+)
+```
+
+### Step 2: Create Escalation Paths
+
+Create escalation paths for human handoff:
+
+```ruby
+escalation = EscalationPath.create!(
+  agent: agent,
+  name: "Support Team",
+  platform: "slack",
+  destination: "#support-channel",
+  active: true
+)
+```
+
+### Step 3: Create Procedure
+
+```ruby
+procedure = Procedure.create!(
+  agent: agent,
+  title: "Order Status Check",
+  content: "# Order Status Check\n\n1. Ask for order number...",
+  active: true
+)
+```
+
+## How Procedures Execute
+
+1. **Document is parsed** for syntax markers
+2. **Actions execute** and results are stored in context
+3. **Conditions evaluate** using context data
+4. **Appropriate blocks execute** based on conditions
+5. **Escalations trigger** when needed
+6. **Processed document** is provided to AI agent
+7. **AI agent responds** using the enhanced context
+
+## Context Variables
+
+After actions execute, data is available in context:
+
+- `{{action:get_order_details}}` → stored in `@context['get_order_details']`
+- Access nested fields: `order.status`, `customer.email`
+- Use in conditions: `{{if:order.status == "shipped"}}`
+
+## Condition Syntax
+
+### Comparison Operators
+
+- `==` - Equal to
+- `!=` - Not equal to
+- `>` - Greater than
+- `<` - Less than
+- `>=` - Greater than or equal
+- `<=` - Less than or equal
+
+### Examples
+
+```markdown
+{{if:amount > 100}}
+{{if:status == "active"}}
+{{if:order.total >= 50}}
+```
+
+## Best Practices
+
+1. **Test actions first**: Ensure actions work before using in procedures
+2. **Use clear condition expressions**: Keep conditions simple and readable
+3. **Handle errors gracefully**: Actions may fail - design procedures accordingly
+4. **Test escalation paths**: Ensure escalation paths are configured
+5. **Use descriptive variable names**: Makes conditions easier to understand
+
+## Troubleshooting
+
+### Action not executing
+
+- Verify action name matches exactly
+- Check action is enabled
+- Review action configuration (URL, method)
+- Check Rails logs for errors
+
+### Condition not working
+
+- Verify variable exists in context
+- Check condition syntax
+- Test condition expression separately
+- Review context data structure
+
+### Escalation not triggering
+
+- Verify escalation path ID is correct
+- Check escalation path is active
+- Ensure escalation path belongs to agent
+- Review escalation service logs
+
+## Next Steps
+
+<Card
+  title="Procedures Example"
+  icon="file"
+  href="/agents/procedures-example"
+>
+  See a complete procedure execution example
+</Card>
+
+<Card
+  title="Workflows"
+  icon="diagram"
+  href="/agents/workflows"
+>
+  Build automation workflows
+</Card>
+

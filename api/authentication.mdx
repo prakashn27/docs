@@ -1,0 +1,155 @@
+---
+title: "API Authentication"
+description: "How to authenticate with the Support Unicorn API"
+---
+
+## Authentication Methods
+
+### Widget Token Authentication
+
+Used for widget-related endpoints and WebSocket connections.
+
+#### Headers
+
+```
+X-Widget-Token: wgt_abc123def456...
+```
+
+#### Query Parameters
+
+```
+?widget_token=wgt_abc123def456...
+```
+
+#### WebSocket
+
+```
+ws://localhost:3000/cable?widget_token=wgt_...&session_id=...
+```
+
+### API Key Authentication
+
+Used for Zendesk sidebar app and other API endpoints.
+
+#### Headers
+
+```
+X-API-Key: your_api_key_here
+```
+
+### Session Authentication
+
+Used for web interface requests.
+
+#### Cookies
+
+```
+_session_id=abc123...
+```
+
+## Widget Token
+
+Widget tokens are generated when creating a ChatWidget:
+
+```ruby
+widget = ChatWidget.create!(
+  name: "My Website Chat",
+  organization: organization,
+  configuration: configuration,
+  enabled: true
+)
+
+# widget.widget_token will be auto-generated
+puts widget.widget_token  # e.g., "wgt_abc123..."
+```
+
+### Token Format
+
+- Format: `wgt_XXXXXXXXXXXXXXXX`
+- Generated using nanoid
+- Unique per widget
+- Maps to specific Organization + Configuration
+
+### Token Validation
+
+- Tokens are validated on both HTTP and WebSocket connections
+- Invalid or disabled tokens are rejected
+- Tokens must belong to an enabled ChatWidget
+
+## API Key
+
+API keys are used for Zendesk installations and other integrations.
+
+### Getting Your API Key
+
+1. Navigate to your Zendesk installation
+2. Click **"API Key"** link
+3. Copy the API key (long hex string)
+
+### Using API Key
+
+```bash
+curl -H "X-API-Key: your_api_key_here" \
+     "https://your-domain.com/api/endpoint"
+```
+
+## Example Requests
+
+### Widget SDK Request
+
+```javascript
+// SDK automatically includes widget token
+fetch('https://your-domain.com/widget', {
+  headers: {
+    'X-Widget-Token': 'wgt_abc123...'
+  }
+})
+```
+
+### API Request with API Key
+
+```bash
+curl -X GET \
+  -H "X-API-Key: your_api_key_here" \
+  "https://your-domain.com/api/zendesk_installations/123/ai_status?ticket_id=456"
+```
+
+### WebSocket Connection
+
+```javascript
+const cableUrl = `/cable?widget_token=${widgetToken}&session_id=${sessionId}`;
+const consumer = createConsumer(cableUrl);
+```
+
+## Security Best Practices
+
+1. **Never expose secrets**: Keep API keys and tokens secure
+2. **Use HTTPS**: Always use HTTPS in production
+3. **Rotate tokens**: Regularly rotate API keys and tokens
+4. **Validate on server**: Always validate tokens on the server side
+5. **Use environment variables**: Store secrets in environment variables
+
+## Troubleshooting
+
+### Invalid token error
+
+- Verify token is correct (no extra spaces)
+- Check token belongs to enabled widget
+- Ensure token format is correct (`wgt_...`)
+
+### Authentication failed
+
+- Check token/key is included in request
+- Verify token/key is valid
+- Review authentication logs
+
+## Next Steps
+
+<Card
+  title="Webhooks"
+  icon="webhook"
+  href="/api/webhooks"
+>
+  Set up webhooks for integrations
+</Card>
+

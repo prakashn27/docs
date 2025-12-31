@@ -1,0 +1,144 @@
+---
+title: "Escalations"
+description: "Set up escalation paths for human handoff"
+---
+
+## Overview
+
+Escalations allow your AI agent to seamlessly hand off conversations to human agents when needed. They can be triggered manually or automatically based on conditions.
+
+## Escalation Platforms
+
+### Slack
+
+Escalate to a Slack channel:
+
+```ruby
+escalation = EscalationPath.create!(
+  agent: agent,
+  name: "Support Team",
+  platform: "slack",
+  destination: "#support-channel",
+  active: true
+)
+```
+
+### Zendesk
+
+Create a Zendesk ticket:
+
+```ruby
+escalation = EscalationPath.create!(
+  agent: agent,
+  name: "Zendesk Support",
+  platform: "zendesk",
+  destination: "support@example.com",
+  active: true
+)
+```
+
+## Creating Escalations
+
+### Via Web Interface
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click **"Create Escalation"**
+3. Configure:
+   - **Name**: Display name
+   - **Platform**: Slack, Zendesk, etc.
+   - **Destination**: Channel, email, etc.
+   - **Active**: Enable/disable
+4. Click **"Save"**
+
+### Via Rails Console
+
+```ruby
+escalation = EscalationPath.create!(
+  agent: agent,
+  name: "Support Team",
+  platform: "slack",
+  destination: "#support",
+  active: true
+)
+```
+
+## Using Escalations
+
+### In Procedures
+
+```markdown
+If the customer needs more help:
+{{escalate:escal_path_support}}
+I've connected you with our support team.
+```
+
+### Programmatically
+
+```ruby
+# In your code
+EscalationService.escalate(
+  conversation: conversation,
+  escalation_path: escalation,
+  reason: "Customer requested human agent"
+)
+```
+
+## Escalation Behavior
+
+When an escalation is triggered:
+
+1. **Ticket/notification created** in the configured platform
+2. **AI is disabled** for the conversation (`ai_disabled: true`)
+3. **Human agent notified** via Slack/Zendesk
+4. **Conversation continues** with human agent
+
+## Testing Escalations
+
+### Test Connection
+
+```ruby
+# In Rails console
+escalation = EscalationPath.find(id)
+EscalationService.test_connection(escalation)
+```
+
+### Via Web Interface
+
+1. Go to **Agents** → **Your Agent** → **Escalations**
+2. Click **"Test Connection"** on an escalation
+3. Verify connection succeeds
+
+## Best Practices
+
+1. **Clear escalation criteria**: Define when to escalate
+2. **Multiple paths**: Set up different paths for different scenarios
+3. **Test regularly**: Ensure escalation paths work
+4. **Monitor escalations**: Track escalation rates and reasons
+5. **Train agents**: Help AI agents know when to escalate
+
+## Troubleshooting
+
+### Escalation not triggering
+
+- Verify escalation path is active
+- Check escalation path belongs to agent
+- Review escalation service logs
+- Test connection manually
+
+### Platform not receiving
+
+- Verify platform integration is configured
+- Check destination (channel, email) is correct
+- Review platform logs
+- Test connection
+
+## Next Steps
+
+<Card
+  title="Procedures"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Use escalations in procedures
+</Card>
+

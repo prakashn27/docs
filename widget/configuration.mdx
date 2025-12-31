@@ -1,0 +1,118 @@
+---
+title: "Widget Configuration"
+description: "Customize the appearance and behavior of your chat widget"
+---
+
+## Configuration Options
+
+All configuration is done via the `window.supportUnicornSettings` object:
+
+```javascript
+window.supportUnicornSettings = {
+  widgetToken: 'wgt_...',
+  // Customization options below
+  position: 'right',
+  locale: 'en',
+  primaryColor: '#590088',
+  welcomeMessage: 'Hi! How can we help you?',
+  hideMessageBubble: false
+};
+```
+
+## Position
+
+Control where the widget appears on the page:
+
+```javascript
+position: 'right'  // or 'left'
+```
+
+## Locale
+
+Set the language for the widget:
+
+```javascript
+locale: 'en'  // English
+locale: 'es'  // Spanish
+locale: 'fr'  // French
+// Add more locales as needed
+```
+
+## Primary Color
+
+Customize the widget's theme color:
+
+```javascript
+primaryColor: '#590088'  // Purple (default)
+primaryColor: '#1f77b4'  // Blue
+primaryColor: '#e91e63'  // Pink
+// Any hex color
+```
+
+## Welcome Message
+
+Set a custom welcome message:
+
+```javascript
+welcomeMessage: 'Hi! How can we help you?'
+welcomeMessage: 'Welcome! Need help?'
+welcomeMessage: '👋 Hello! Ask me anything.'
+```
+
+## Hide Message Bubble
+
+Hide the chat bubble (widget will still be accessible via JavaScript API):
+
+```javascript
+hideMessageBubble: true
+```
+
+## Dynamic Configuration
+
+You can also update configuration after the widget loads using the JavaScript API:
+
+```javascript
+// Change locale
+window.$supportUnicorn.setLocale('es');
+
+// Change theme color
+window.$supportUnicorn.setPrimaryColor('#e91e63');
+```
+
+## Styling
+
+The widget uses Tailwind CSS classes. To customize further:
+
+1. Override CSS variables in `supportUnicornSettings`
+2. Use custom CSS to target widget elements (if needed)
+
+## Example: Full Configuration
+
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_abc123def456',
+    
+    // Appearance
+    position: 'right',
+    primaryColor: '#590088',
+    welcomeMessage: '👋 Welcome! How can we help?',
+    
+    // Behavior
+    locale: 'en',
+    hideMessageBubble: false
+  };
+</script>
+<script src="https://support.example.com/sdk.js"></script>
+```
+
+## Next Steps
+
+<Card
+  title="JavaScript API"
+  icon="code"
+  href="/widget/javascript-api"
+>
+  Learn how to programmatically control the widget
+</Card>
+

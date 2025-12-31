@@ -1,0 +1,232 @@
+---
+title: "Zendesk Sidebar App Installation"
+description: "Install the Support Unicorn sidebar app in Zendesk"
+---
+
+## Prerequisites
+
+✅ You must have already connected your Zendesk account via OAuth  
+✅ You have configured an AI agent for your Zendesk installation  
+✅ You have admin access to your Zendesk account  
+
+## Step 1: Get Your Configuration Values
+
+1. **Start your Rails application:**
+   ```bash
+   bin/rails server
+   ```
+
+2. **Navigate to Zendesk Installations:**
+   - Go to `http://localhost:3000/zendesk_installations`
+   - Find your Zendesk installation in the list
+
+3. **Click "API Key" link** for your installation
+
+4. **Copy these 3 values** (you'll need them later):
+   - ✅ **API Key** (long hex string)
+   - ✅ **Installation ID** (starts with a number or UUID)
+   - ✅ **API Base URL** (e.g., `http://localhost:3000` or your production URL)
+
+## Step 2: Create the Zendesk App Package
+
+### Option A: Using Command Line (Recommended)
+
+```bash
+# Navigate to the zendesk directory
+cd public/zendesk
+
+# Create a ZIP file with all the app files
+zip -r support-unicorn-app.zip manifest.json assets/
+
+# The ZIP file is now ready at: public/zendesk/support-unicorn-app.zip
+```
+
+### Option B: Manual (macOS/Windows/Linux)
+
+**macOS Finder:**
+1. Navigate to `public/zendesk` folder
+2. Select `manifest.json` and `assets/` folder
+3. Right-click → "Compress 2 Items"
+4. Rename the ZIP to `support-unicorn-app.zip`
+
+**Windows Explorer:**
+1. Navigate to `public/zendesk` folder
+2. Select `manifest.json` and `assets/` folder
+3. Right-click → "Send to" → "Compressed (zipped) folder"
+4. Name it `support-unicorn-app.zip`
+
+## Step 3: Upload to Zendesk
+
+### 3.1 Access Zendesk Admin Center
+
+1. **Log in to your Zendesk account**
+   - Go to: `https://YOUR-SUBDOMAIN.zendesk.com`
+
+2. **Navigate to Admin Center**
+   - Click the **admin gear icon** (⚙️) in the left sidebar
+   - Or go directly to: `https://YOUR-SUBDOMAIN.zendesk.com/admin`
+
+### 3.2 Navigate to Apps Section
+
+1. In the Admin Center, look for the left sidebar menu
+2. Click **"Apps and integrations"** (or **"Apps & Integrations"**)
+3. Click **"Apps"** → **"Zendesk Support apps"**
+
+### 3.3 Upload Private App
+
+1. On the **Zendesk Support apps** page, click **"Upload private app"** button (top-right)
+2. **Select your ZIP file:**
+   - Click **"Choose File"** or drag-and-drop
+   - Select `support-unicorn-app.zip`
+   - Click **"Upload"**
+
+3. **Wait for validation:**
+   - Zendesk will validate your app manifest
+   - This usually takes 5-10 seconds
+   - You should see a success message
+
+## Step 4: Configure App Settings
+
+After uploading, Zendesk will show you the app installation screen.
+
+### 4.1 App Information Screen
+
+You'll see:
+- **App Name:** Support Unicorn AI Agent
+- **Author:** Support Unicorn
+- **Version:** 1.0.0
+- **Description:** AI agent sidebar for ticket management
+
+Click **"Install"** to continue.
+
+### 4.2 Configure App Parameters
+
+Enter the configuration values from Step 1:
+
+1. **api_key:**
+   ```
+   Paste the API Key you copied in Step 1
+   Example: a1b2c3d4e5f6....(64 characters)
+   ```
+
+2. **installation_id:**
+   ```
+   Paste the Installation ID you copied in Step 1
+   Example: 123 or abc-123-def
+   ```
+
+3. **api_base_url:**
+   ```
+   Paste the API Base URL you copied in Step 1
+
+   For local testing: http://localhost:3000
+   For ngrok: https://your-subdomain.ngrok.io
+   For production: https://your-app.com
+   ```
+
+   ⚠️ **Important:** Do NOT include a trailing slash!
+   - ✅ Correct: `http://localhost:3000`
+   - ❌ Wrong: `http://localhost:3000/`
+
+### 4.3 Complete Installation
+
+1. Click **"Install"** button
+2. Wait for confirmation message: "App installed successfully"
+3. Click **"Done"** or close the modal
+
+## Step 5: Enable the App
+
+1. **Go back to Zendesk Support apps page**
+   - Admin Center → Apps and integrations → Apps → Zendesk Support apps
+
+2. **Find "Support Unicorn AI Agent"** in the list
+
+3. **Check the status:**
+   - If it shows **"Enabled"** - you're good!
+   - If it shows **"Disabled"** - click the toggle to enable it
+
+## Step 6: Test the Sidebar App
+
+### 6.1 Open a Ticket
+
+1. **Go to your Zendesk Support interface:**
+   - Click the **"Support"** tab in the top navigation
+
+2. **Open any ticket** (create a new test ticket if needed)
+
+### 6.2 Find the Sidebar
+
+1. **Look at the right sidebar** of the ticket view
+2. **Scroll down** - you should see a new section called:
+   ```
+   📱 Support Unicorn AI Agent
+   ```
+
+3. **You should see:**
+   - 🟢 **AI Status Badge** (green = enabled, red = disabled)
+   - 👤 **Agent Name** (if configured)
+   - ⏰ **Last Interaction** timestamp
+   - 💬 **Message Count**
+   - 🔘 **Toggle Button** (Enable AI / Disable AI)
+
+## Troubleshooting
+
+### App not appearing in sidebar
+
+- Check app is enabled in Zendesk
+- Hard refresh the ticket page: `Cmd+Shift+R` (Mac) or `Ctrl+Shift+R` (Windows)
+- Check browser console for errors
+
+### Failed to load AI status
+
+- **Check API Base URL is accessible:**
+  - If using `http://localhost:3000`, Zendesk cannot reach it from the cloud
+  - Use **ngrok** for local testing:
+    ```bash
+    ngrok http 3000
+    # Copy the HTTPS URL and update app settings
+    ```
+
+- **Verify API Base URL has no trailing slash**
+
+- **Check Rails server is running**
+
+### Invalid API key
+
+- Re-copy the API key from Zendesk Installations page
+- Update app settings in Zendesk
+- Ensure no extra spaces in the key
+
+### No AI agent configured
+
+- Go to: `http://localhost:3000/zendesk_installations`
+- Click "Configure" on your installation
+- Select an AI agent from the dropdown
+- Click "Save"
+
+## For Production Deployment
+
+When you're ready to deploy to production:
+
+1. **Update API Base URL:**
+   - Change from ngrok/localhost to your production URL
+   - Example: `https://support.yourcompany.com`
+
+2. **Re-upload app with production URL:**
+   - Option 1: Update the installed app's configuration
+   - Option 2: Re-upload the ZIP with updated settings
+
+3. **Verify webhook URL:**
+   - Admin Center → Apps → Webhooks
+   - Should point to your production domain
+
+## Next Steps
+
+<Card
+  title="Zendesk Integration"
+  icon="ticket"
+  href="/integrations/zendesk"
+>
+  Learn more about Zendesk integration
+</Card>
+
