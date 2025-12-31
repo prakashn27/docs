@@ -5,7 +5,7 @@ description: "AI-powered customer support platform with multi-channel integratio
 
 ## What is Support Unicorn?
 
-Support Unicorn is a Rails 8.0.2 AI-powered customer support platform that enables organizations to provide multi-channel customer support through Live Chat, SMS/WhatsApp (via Twilio), Slack, and Zendesk integrations. The platform uses Retrieval-Augmented Generation (RAG) with vector search for AI-powered responses.
+Support Unicorn is an AI-powered customer support platform that helps you provide exceptional customer service across multiple channels. Deploy AI agents that answer customer questions instantly, escalate to human agents when needed, and learn from your knowledge base.
 
 <Card
   title="Get Started"
@@ -13,100 +13,179 @@ Support Unicorn is a Rails 8.0.2 AI-powered customer support platform that enabl
   href="/getting-started/quickstart"
   horizontal
 >
-  Follow our quickstart guide to get up and running in minutes.
+  Follow our quickstart guide to set up your first AI agent in minutes.
 </Card>
 
 ## Core Features
 
-<Columns cols={2}>
+<CardGroup cols={2}>
   <Card
-    title="🤖 AI-Powered Agents"
+    title="AI-Powered Agents"
     icon="robot"
     href="/agents/overview"
   >
-    Deploy AI agents that answer customer questions using knowledge bases with seamless escalation to human agents.
+    Deploy intelligent AI agents that understand your business and answer customer questions 24/7.
   </Card>
   <Card
-    title="💬 Live Chat Widget"
+    title="Live Chat Widget"
     icon="message"
     href="/widget/overview"
   >
-    Embeddable chat widget with real-time WebSocket communication and ActionCable integration.
+    Embeddable chat widget for your website with real-time communication and file sharing.
   </Card>
   <Card
-    title="🔌 Multi-Channel Support"
-    icon="plug"
-    href="/integrations/slack"
+    title="Multi-Channel Support"
+    icon="comments"
+    href="/agents/channels"
   >
-    Integrate with Slack, Zendesk, Twilio (SMS/WhatsApp), and more.
+    Reach customers via Live Chat, SMS, WhatsApp, and more - all from one platform.
   </Card>
   <Card
-    title="📚 Knowledge Base"
+    title="Smart Escalations"
+    icon="hand"
+    href="/agents/escalations"
+  >
+    Seamlessly hand off complex issues to human agents via Slack, Zendesk, Jira, or Teams.
+  </Card>
+  <Card
+    title="Knowledge Base"
     icon="book"
     href="/agents/data-sources"
   >
-    Upload files, add Q&As, scrape websites, and build comprehensive knowledge bases.
+    Upload documents, add Q&As, and scrape websites to build your AI agent's knowledge.
   </Card>
   <Card
-    title="⚙️ Procedures & Workflows"
+    title="Custom Procedures"
     icon="gears"
     href="/agents/procedures"
   >
-    Create structured procedures with conditional logic, actions, and escalations.
+    Create structured workflows with conditional logic, actions, and escalation rules.
   </Card>
   <Card
-    title="💳 Credit-Based Billing"
+    title="Team Integrations"
+    icon="plug"
+    href="/integrations/slack"
+  >
+    Connect with Slack, Zendesk, Google, and Twilio for seamless team collaboration.
+  </Card>
+  <Card
+    title="Flexible Billing"
     icon="credit-card"
     href="/setup/billing"
   >
-    Flexible billing system with Stripe integration for subscriptions and credit purchases.
+    Pay-as-you-go pricing with Stripe integration and transparent credit usage.
   </Card>
-</Columns>
+</CardGroup>
 
-## Architecture Highlights
+## How It Works
 
-### Technology Stack
+### 1. Create Your AI Agent
 
-- **Backend**: Ruby 3.4.4, Rails 8.0.2
-- **Database**: PostgreSQL (primary), SQLite (for SolidCache, SolidQueue, SolidCable)
-- **Job Processing**: SolidQueue
-- **Real-time**: ActionCable (SolidCable)
-- **Frontend**: Hotwire (Turbo + Stimulus), Importmap
-- **AI/ML**: OpenAI (embeddings & chat), Turbopuffer (vector search), Unstructured.io (document parsing)
+Set up your AI agent in minutes. Configure its personality, tone, and behavior to match your brand.
 
-### Key Integrations
+### 2. Build Your Knowledge Base
 
-- **OpenAI**: Embedding generation and chat completions
-- **Turbopuffer**: Vector database for semantic search
-- **Unstructured.io**: Document parsing and chunking
-- **AWS S3**: File storage via Active Storage
-- **Stripe**: Payments and subscriptions
-- **Twilio**: SMS/WhatsApp messaging
-- **Slack**: Team communication
-- **Zendesk**: Ticket management
+Upload documents, create Q&A pairs, or scrape your existing documentation. Your AI agent learns from all your content.
+
+### 3. Connect Communication Channels
+
+Add channels where customers can reach you:
+- **Live Chat Widget** on your website
+- **SMS & WhatsApp** via Twilio
+- More channels coming soon
+
+### 4. Set Up Escalations
+
+Configure when and how to escalate conversations to your human support team via Slack, Zendesk, Jira, or Microsoft Teams.
+
+### 5. Go Live
+
+Deploy your AI agent and start providing instant, accurate customer support around the clock.
+
+## Key Benefits
+
+<AccordionGroup>
+  <Accordion title="24/7 Customer Support">
+    Your AI agent never sleeps. Provide instant answers to customer questions at any time, reducing wait times and improving satisfaction.
+  </Accordion>
+  <Accordion title="Reduce Support Costs">
+    Automate responses to common questions, freeing your support team to focus on complex issues that require human expertise.
+  </Accordion>
+  <Accordion title="Scale Effortlessly">
+    Handle unlimited concurrent conversations without hiring additional staff. Your AI agent scales with your business.
+  </Accordion>
+  <Accordion title="Consistent Answers">
+    Ensure every customer gets accurate, consistent information based on your knowledge base - no more inconsistent responses.
+  </Accordion>
+  <Accordion title="Smart Human Handoff">
+    Automatically escalate complex issues to your team with full conversation context, ensuring smooth transitions.
+  </Accordion>
+  <Accordion title="Multi-Channel Flexibility">
+    Meet customers where they are - website chat, SMS, WhatsApp, or integrated platforms like Slack and Zendesk.
+  </Accordion>
+</AccordionGroup>
+
+## Popular Use Cases
+
+### Customer Support
+
+Answer frequently asked questions, troubleshoot common issues, and guide customers through your products or services.
+
+### Lead Qualification
+
+Engage website visitors, collect contact information, and qualify leads before routing to your sales team.
+
+### Order & Shipping Inquiries
+
+Provide instant updates on order status, shipping information, and delivery tracking.
+
+### Technical Support
+
+Help customers troubleshoot technical issues using your documentation and knowledge base.
+
+### Appointment Scheduling
+
+Collect customer information and preferences, then escalate to your team for booking confirmation.
 
 ## Quick Links
 
-<Card
-  title="Widget Integration"
-  icon="code"
-  href="/widget/installation"
->
-  Learn how to embed the chat widget on your website.
-</Card>
+<CardGroup cols={2}>
+  <Card
+    title="Widget Installation"
+    icon="code"
+    href="/widget/installation"
+  >
+    Embed the chat widget on your website
+  </Card>
+  <Card
+    title="Setup Channels"
+    icon="comments"
+    href="/agents/channels"
+  >
+    Configure communication channels
+  </Card>
+  <Card
+    title="Setup Escalations"
+    icon="hand"
+    href="/agents/escalations"
+  >
+    Configure human handoff workflows
+  </Card>
+  <Card
+    title="Integrations"
+    icon="plug"
+    href="/integrations/slack"
+  >
+    Connect Slack, Zendesk, and more
+  </Card>
+</CardGroup>
+
+## Need Help?
 
 <Card
-  title="Setup Guides"
-  icon="wrench"
-  href="/setup/billing"
+  title="Contact Support"
+  icon="life-ring"
+  href="mailto:support@supportunicorn.com"
 >
-  Configure billing, file processing, and integrations.
-</Card>
-
-<Card
-  title="API Reference"
-  icon="terminal"
-  href="/api/overview"
->
-  Explore the API endpoints and authentication.
+  Our team is here to help you get the most out of Support Unicorn.
 </Card>

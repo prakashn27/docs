@@ -32,6 +32,22 @@
             ]
           },
           {
+            "group": "AI Agents",
+            "pages": [
+              "agents/overview",
+              "agents/data-sources",
+              "agents/procedures",
+              "agents/workflows"
+            ]
+          },
+          {
+            "group": "Communication",
+            "pages": [
+              "agents/channels",
+              "agents/escalations"
+            ]
+          },
+          {
             "group": "Integrations",
             "pages": [
               "integrations/slack",
@@ -41,17 +57,7 @@
             ]
           },
           {
-            "group": "AI Agents",
-            "pages": [
-              "agents/overview",
-              "agents/data-sources",
-              "agents/procedures",
-              "agents/workflows",
-              "agents/escalations"
-            ]
-          },
-          {
-            "group": "Setup Guides",
+            "group": "Setup & Configuration",
             "pages": [
               "setup/billing",
               "setup/file-processing",
@@ -59,19 +65,11 @@
             ]
           },
           {
-            "group": "API Reference",
+            "group": "API & Webhooks",
             "pages": [
               "api/overview",
               "api/authentication",
               "api/webhooks"
-            ]
-          },
-          {
-            "group": "Development",
-            "pages": [
-              "development/architecture",
-              "development/local-setup",
-              "development/deployment"
             ]
           }
         ]

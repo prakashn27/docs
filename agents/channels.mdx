@@ -1,0 +1,176 @@
+---
+title: "Communication Channels"
+description: "Set up channels for customers to reach your AI agent"
+---
+
+## Overview
+
+Channels define how customers can communicate with your AI agent. Support Unicorn supports multiple channel types including Live Chat, SMS, and WhatsApp.
+
+## Channel Types
+
+### Live Chat Widget
+
+The Live Chat widget allows customers to chat with your AI agent directly on your website.
+
+**Features:**
+- Real-time WebSocket communication
+- Customizable appearance
+- Mobile responsive
+- File attachments support
+
+**Setup:**
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click **"Create Channel"**
+3. Select **"Live Chat"** as the channel type
+4. Configure:
+   - **Widget Name**: Display name for the widget
+   - **Allowed Domains**: Websites where the widget can be embedded
+5. Click **"Save"**
+6. Copy the widget installation code
+
+<Card
+  title="Widget Installation Guide"
+  icon="code"
+  href="/widget/installation"
+>
+  Learn how to embed the chat widget on your website
+</Card>
+
+### SMS (Twilio)
+
+Enable customers to reach your AI agent via SMS text messages.
+
+**Requirements:**
+- Twilio account with an active phone number
+- Twilio Account SID and Auth Token
+
+**Setup:**
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click **"Create Channel"**
+3. Select **"SMS (Twilio)"** as the channel type
+4. Configure:
+   - **Phone Number**: Your Twilio phone number (E.164 format, e.g., +1234567890)
+   - **Display Name**: Name shown to customers
+   - **Twilio Account SID**: From your Twilio console
+   - **Twilio Auth Token**: From your Twilio console
+5. Click **"Save"**
+
+**Phone Number Format:**
+- Must be in E.164 format: `+[country code][number]`
+- Example: `+14155552671` for a US number
+
+### WhatsApp (Twilio)
+
+Connect your AI agent to WhatsApp Business via Twilio.
+
+**Requirements:**
+- Twilio account with WhatsApp Business API enabled
+- WhatsApp-enabled Twilio phone number
+
+**Setup:**
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click **"Create Channel"**
+3. Select **"WhatsApp (Twilio)"** as the channel type
+4. Configure:
+   - **Phone Number**: Your Twilio WhatsApp number (E.164 format)
+   - **Display Name**: Name shown to customers
+   - **Twilio Account SID**: From your Twilio console
+   - **Twilio Auth Token**: From your Twilio console
+5. Click **"Save"**
+
+<Card
+  title="Twilio Integration Guide"
+  icon="message"
+  href="/integrations/twilio"
+>
+  Detailed setup instructions for Twilio SMS and WhatsApp
+</Card>
+
+## Managing Channels
+
+### Activate/Deactivate a Channel
+
+You can temporarily disable a channel without deleting it:
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Find the channel you want to manage
+3. Toggle the **"Active"** switch
+
+**Note:** Deactivated channels will not accept new conversations, but existing conversations remain accessible.
+
+### Edit Channel Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the channel you want to edit
+3. Update the configuration
+4. Click **"Save Changes"**
+
+### Delete a Channel
+
+**Warning:** You cannot delete a channel that has active conversations. Deactivate it first or wait until conversations are resolved.
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the channel you want to delete
+3. Click **"Delete Channel"**
+4. Confirm the deletion
+
+## Channel Configuration
+
+Each channel type has specific configuration requirements:
+
+| Channel Type | Required Fields | Optional Fields |
+|-------------|-----------------|-----------------|
+| Live Chat | Widget Name | Allowed Domains |
+| SMS (Twilio) | Phone Number, Account SID, Auth Token | Display Name |
+| WhatsApp (Twilio) | Phone Number, Account SID, Auth Token | Display Name |
+
+## Best Practices
+
+1. **Test Before Going Live**: Send test messages to ensure channels work correctly
+2. **Secure Credentials**: Keep Twilio credentials private and rotate them periodically
+3. **Monitor Usage**: Track channel activity to optimize customer support
+4. **Multiple Channels**: Offer customers choice in how they communicate
+5. **Clear Naming**: Use descriptive names to differentiate channels
+
+## Troubleshooting
+
+### Live Chat Widget Not Appearing
+
+- Verify the widget code is installed correctly on your website
+- Check that the domain is listed in allowed domains
+- Ensure the channel is activated
+- Clear browser cache and refresh the page
+
+### SMS/WhatsApp Not Receiving Messages
+
+- Verify phone number is in E.164 format
+- Check Twilio credentials are correct and active
+- Ensure Twilio webhook is configured (see Twilio integration guide)
+- Verify your Twilio account has sufficient balance
+- Check Twilio debugger for webhook delivery errors
+
+### "Cannot Delete Channel" Error
+
+- The channel has active conversations
+- Option 1: Deactivate the channel instead
+- Option 2: Close all conversations on the channel first
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Widget Configuration"
+    icon="palette"
+    href="/widget/configuration"
+  >
+    Customize widget appearance and behavior
+  </Card>
+  <Card
+    title="Escalations"
+    icon="hand"
+    href="/agents/escalations"
+  >
+    Set up handoff to human agents
+  </Card>
+</CardGroup>
