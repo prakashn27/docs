@@ -1,0 +1,153 @@
+---
+title: "SMS (Twilio)"
+description: "Enable SMS text message support via Twilio"
+---
+
+## Overview
+
+Enable customers to reach your AI agent via SMS text messages using Twilio's messaging platform.
+
+## Requirements
+
+Before setting up SMS, you'll need:
+
+- **Twilio Account**: Active Twilio account with SMS capabilities
+- **Twilio Phone Number**: A dedicated phone number for SMS
+- **Twilio Credentials**:
+  - Account SID
+  - Auth Token
+
+## Setup Instructions
+
+### Step 1: Create the Channel
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click **"Create Channel"**
+3. Select **"SMS (Twilio)"** as the channel type
+
+### Step 2: Configure Twilio Settings
+
+Enter the following information:
+
+- **Phone Number**: Your Twilio phone number in E.164 format (e.g., `+14155552671`)
+- **Display Name**: Name shown to customers (optional)
+- **Twilio Account SID**: Found in your Twilio console
+- **Twilio Auth Token**: Found in your Twilio console
+
+### Step 3: Save Configuration
+
+Click **"Save"** to create the SMS channel.
+
+## Phone Number Format
+
+Phone numbers must be in **E.164 format**:
+
+- Format: `+[country code][number]`
+- US Example: `+14155552671`
+- UK Example: `+447911123456`
+- No spaces, dashes, or parentheses
+
+## Configuration Options
+
+| Option | Description | Required |
+|--------|-------------|----------|
+| Phone Number | Twilio phone number (E.164 format) | Yes |
+| Display Name | Name shown to customers | No |
+| Twilio Account SID | Your Twilio Account SID | Yes |
+| Twilio Auth Token | Your Twilio Auth Token | Yes |
+
+## Getting Twilio Credentials
+
+1. Log in to your [Twilio Console](https://console.twilio.com/)
+2. Find your **Account SID** and **Auth Token** on the dashboard
+3. Navigate to **Phone Numbers** → **Manage** → **Active Numbers**
+4. Select or purchase a phone number with SMS capabilities
+
+<Card
+  title="Twilio Integration Guide"
+  icon="message"
+  href="/integrations/twilio"
+>
+  Detailed Twilio setup and webhook configuration
+</Card>
+
+## Managing the Channel
+
+### Activate/Deactivate
+
+Toggle the **"Active"** switch to enable or disable SMS without deleting the channel.
+
+### Edit Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the SMS channel
+3. Update configuration (credentials, phone number, etc.)
+4. Click **"Save Changes"**
+
+### Delete Channel
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the SMS channel
+3. Click **"Delete Channel"**
+4. Confirm deletion
+
+## Best Practices
+
+1. **Test Messages**: Send test SMS before going live
+2. **Monitor Costs**: Track Twilio usage to manage costs
+3. **Secure Credentials**: Keep Account SID and Auth Token private
+4. **Rotate Tokens**: Periodically regenerate Auth Tokens for security
+5. **Response Times**: Ensure quick AI responses for SMS conversations
+6. **Character Limits**: Be aware of SMS 160-character segments
+
+## Troubleshooting
+
+### Not Receiving Messages
+
+- Verify phone number is in correct E.164 format
+- Check Twilio credentials are correct and active
+- Ensure Twilio webhook is configured properly
+- Verify your Twilio account has sufficient balance
+- Check Twilio debugger for webhook delivery errors
+
+### Messages Not Sending
+
+- Confirm Twilio account is in good standing
+- Verify phone number has SMS capabilities enabled
+- Check for Twilio service outages
+- Review Twilio error logs for specific error codes
+
+### Webhook Configuration Issues
+
+- Ensure webhook URL is publicly accessible
+- Verify webhook is set to POST method
+- Check that SSL certificate is valid
+- Test webhook using Twilio's testing tools
+
+## Cost Considerations
+
+- **Inbound SMS**: Charged per message received
+- **Outbound SMS**: Charged per message sent
+- **Phone Number**: Monthly rental fee
+- **International**: Higher rates for international numbers/messages
+
+Refer to [Twilio Pricing](https://www.twilio.com/sms/pricing) for current rates.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Twilio Integration"
+    icon="message"
+    href="/integrations/twilio"
+  >
+    Complete Twilio setup and webhook configuration
+  </Card>
+  <Card
+    title="WhatsApp Channel"
+    icon="comment"
+    href="/channels/whatsapp"
+  >
+    Add WhatsApp messaging support
+  </Card>
+</CardGroup>

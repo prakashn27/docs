@@ -72,42 +72,36 @@ I've connected you with a human agent.
 
 First, create the actions your procedure will use:
 
-```ruby
-# In Rails console or via UI
-action = AgentAction.create!(
-  agent: agent,
-  name: "get_order_details",
-  description: "Fetch order details from API",
-  http_method: "GET",
-  url: "https://api.example.com/orders/{{order_number}}",
-  enabled: true
-)
-```
+1. Navigate to **Agents** → **Your Agent** → **Actions**
+2. Click **"Create Action"**
+3. Configure the action:
+   - **Name**: `get_order_details`
+   - **Description**: Fetch order details from API
+   - **HTTP Method**: GET
+   - **URL**: `https://api.example.com/orders/{{order_number}}`
+4. Click **"Save"**
 
 ### Step 2: Create Escalation Paths
 
 Create escalation paths for human handoff:
 
-```ruby
-escalation = EscalationPath.create!(
-  agent: agent,
-  name: "Support Team",
-  platform: "slack",
-  destination: "#support-channel",
-  active: true
-)
-```
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click **"Create Escalation Path"**
+3. Configure the escalation:
+   - **Name**: Support Team
+   - **Platform**: Slack
+   - **Destination**: #support-channel
+4. Click **"Save"**
 
 ### Step 3: Create Procedure
 
-```ruby
-procedure = Procedure.create!(
-  agent: agent,
-  title: "Order Status Check",
-  content: "# Order Status Check\n\n1. Ask for order number...",
-  active: true
-)
-```
+1. Navigate to **Agents** → **Your Agent** → **Procedures**
+2. Click **"Create Procedure"**
+3. Configure the procedure:
+   - **Title**: Order Status Check
+   - **Content**: Write your procedure using the syntax described above
+4. Enable the procedure
+5. Click **"Save"**
 
 ## How Procedures Execute
 

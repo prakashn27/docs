@@ -1,0 +1,345 @@
+---
+title: "Jira Escalations"
+description: "Create Jira issues from escalated customer conversations"
+---
+
+## Overview
+
+Automatically create Jira issues when customer conversations require engineering attention, integrating AI support directly with your development workflow.
+
+## Requirements
+
+- Active Jira Cloud or Server instance
+- Jira integration connected (see Integration Setup below)
+- API token with issue creation permissions
+- Jira project with appropriate issue types configured
+
+## Setup Instructions
+
+### Step 1: Connect Jira Integration
+
+<Card
+  title="Jira Integration"
+  icon="jira"
+  href="/integrations/jira"
+>
+  Connect your Jira instance first
+</Card>
+
+### Step 2: Create Escalation Path
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click **"Create Escalation Path"**
+3. Fill in the basic information:
+   - **Name**: Descriptive name (e.g., "Jira Bug Reports")
+   - **Platform**: Select **"Jira"**
+   - **Platform Integration**: Choose your connected Jira instance
+
+### Step 3: Configure Jira Settings
+
+Configure issue creation settings:
+
+- **Project Key**: Jira project where issues will be created (e.g., "SUP")
+- **Issue Type**: Bug, Task, Story, Epic, etc.
+- **Priority** (optional): Set default priority (Highest, High, Medium, Low, Lowest)
+- **Assignee** (optional): Auto-assign to specific user
+- **Labels** (optional): Add labels to issues (e.g., "ai-escalation", "customer-reported")
+- **Components** (optional): Associate with project components
+
+### Step 4: Set Up Triggers (Optional)
+
+Choose when to automatically escalate:
+
+- **Manual Only**: Only when customer requests or AI determines need
+- **Message Count**: After specific number of messages
+- **Keywords**: When certain words detected
+
+### Step 5: Save Configuration
+
+Click **"Save"** to create the escalation path.
+
+## Configuration Options
+
+| Option | Description | Required |
+|--------|-------------|----------|
+| Project Key | Jira project identifier | Yes |
+| Issue Type | Type of issue to create | Yes |
+| Priority | Default priority level | No |
+| Assignee | Username to auto-assign | No |
+| Labels | Comma-separated labels | No |
+| Components | Component IDs or names | No |
+
+## Project Key
+
+The project key is the short identifier for your Jira project:
+
+**Examples**:
+- `SUP` for "Support"
+- `BUG` for "Bug Tracking"
+- `CS` for "Customer Success"
+
+Find it in your Jira project URL: `https://yourcompany.atlassian.net/browse/[PROJECT_KEY]`
+
+## Issue Types
+
+Common issue types:
+
+- **Bug**: Software defects reported by customers
+- **Task**: Work items or action items
+- **Story**: User stories or feature requests
+- **Epic**: Large initiatives or themes
+- **Support**: Support-specific issue type (if configured)
+
+**Note**: Available issue types depend on your Jira project configuration.
+
+## Priority Levels
+
+Standard Jira priorities:
+
+- **Highest**: Critical issues blocking customers
+- **High**: Important issues needing prompt attention
+- **Medium**: Standard priority (default)
+- **Low**: Minor issues or improvements
+- **Lowest**: Nice-to-have enhancements
+
+## Assignee
+
+Auto-assign issues to specific users:
+
+- Use Jira **username** (not display name)
+- Leave empty to use project default assignment
+- Can be overridden by Jira automation rules
+
+**Example**: `john.doe` or `jsmith`
+
+## Labels
+
+Apply labels to categorize and track issues:
+
+**Common Labels**:
+- `ai-escalation`: Identifies AI-escalated issues
+- `customer-reported`: Originated from customer
+- `channel-livechat`, `channel-sms`: Indicates channel
+- `urgent`, `billing`, `technical`: Topic categories
+
+**Example**: `ai-escalation, customer-reported, urgent`
+
+## Components
+
+Associate issues with Jira components:
+
+1. Find component names in Jira:
+   - Go to **Project Settings** → **Components**
+   - Note component names (case-sensitive)
+
+2. Enter component names in escalation settings
+
+**Example Components**:
+- `API`
+- `Web Application`
+- `Mobile App`
+- `Billing System`
+
+## Issue Content
+
+The issue description automatically includes:
+
+- **Escalation Summary**: Brief overview
+- **Channel**: Where conversation took place
+- **Full Transcript**: Complete conversation history
+- **Customer Information**: Name, email, identifier
+- **Reproduction Steps**: If applicable
+- **Timestamp**: When issue was reported
+- **Link to Conversation**: Direct link in Support Unicorn
+
+## Escalation Triggers
+
+### Manual Only
+
+Create issue only when:
+- Customer explicitly reports a bug or problem
+- AI determines it cannot assist and issue needs tracking
+
+### Message Count Trigger
+
+Create issue after specific number of messages.
+
+**Use Case**: Extended troubleshooting may indicate a bug.
+
+### Keyword Trigger
+
+Create issue when keywords detected.
+
+**Example Keywords**:
+- Technical: "error", "broken", "not working", "crash"
+- Bug-related: "bug", "issue", "problem", "glitch"
+- Data: "missing", "incorrect", "wrong"
+
+## How It Works
+
+When escalation is triggered:
+
+1. **Issue Created**: New Jira issue created in specified project
+2. **AI Pauses**: AI agent stops responding
+3. **Team Notified**: Assignee and watchers receive Jira notification
+4. **Context Included**: Full conversation in issue description
+5. **Workflow Started**: Issue follows your Jira workflow
+6. **Updates Tracked**: Status changes tracked in Jira
+
+## Managing Jira Escalations
+
+### Test Connection
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Find your Jira escalation path
+3. Click **"Test Connection"**
+4. Verify test issue appears in Jira project
+
+### Activate/Deactivate
+
+Toggle the **"Active"** switch to enable or disable the escalation path.
+
+### Edit Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click the Jira escalation path
+3. Update configuration
+4. Click **"Save Changes"**
+
+## Best Practices
+
+1. **Consistent Labeling**: Use standard labels for reporting
+2. **Appropriate Issue Types**: Match escalation type to issue type
+3. **Component Mapping**: Route to correct engineering teams
+4. **Clear Descriptions**: Include reproduction steps when possible
+5. **SLA Tracking**: Monitor resolution times for customer-reported issues
+6. **Feedback Loop**: Update AI knowledge base from resolved issues
+
+## Example Use Cases
+
+### Use Case 1: Bug Reports
+
+**Configuration**:
+- **Project**: `BUG`
+- **Issue Type**: Bug
+- **Priority**: High
+- **Labels**: `ai-escalation, customer-reported, bug`
+- **Components**: API, Web Application
+- **Trigger**: Keywords ("error", "broken", "crash", "bug")
+
+**Scenario**: Customer-reported bugs automatically create issues for engineering team.
+
+### Use Case 2: Feature Requests
+
+**Configuration**:
+- **Project**: `PRODUCT`
+- **Issue Type**: Story
+- **Priority**: Medium
+- **Labels**: `ai-escalation, feature-request, customer-feedback`
+- **Assignee**: Product Manager
+- **Trigger**: Keywords ("feature", "enhancement", "would be great if")
+
+**Scenario**: Customer feature requests tracked for product planning.
+
+### Use Case 3: Technical Support Issues
+
+**Configuration**:
+- **Project**: `SUP`
+- **Issue Type**: Task
+- **Priority**: Normal
+- **Labels**: `ai-escalation, technical-support`
+- **Components**: Customer Support
+- **Trigger**: Message count > 7
+
+**Scenario**: Complex technical issues escalated to support engineers.
+
+## Using in Procedures
+
+Reference the escalation path in AI procedures:
+
+```markdown
+For technical issues:
+{{escalate:escal_jira_bugs}}
+I've created a bug report for our engineering team. We'll investigate and update you soon.
+```
+
+<Card
+  title="Procedures Guide"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Learn how to use escalations in procedures
+</Card>
+
+## Troubleshooting
+
+### Issues Not Being Created
+
+- Verify Jira integration is connected and active
+- Check API token has issue creation permissions
+- Ensure project key is correct (case-sensitive)
+- Verify escalation path is activated
+- Test connection using "Test Connection" button
+
+### "Project Not Found" Error
+
+- Verify project key is exactly correct
+- Check that API user has access to the project
+- Ensure project exists and is active
+
+### Invalid Issue Type
+
+- Verify issue type is available in the project
+- Check spelling and case of issue type name
+- Ensure issue type is not archived or disabled
+
+### Assignee Not Set
+
+- Verify username is correct (not display name)
+- Check that user has access to the project
+- Ensure user is active in Jira
+- Leave empty to use project defaults
+
+### Labels or Components Not Applied
+
+- Verify exact names (case-sensitive)
+- Check that components exist in project
+- Ensure API user has permission to apply labels
+
+## Advanced Configuration
+
+### Custom Fields
+
+Configure custom fields in Jira integration settings:
+
+- Map conversation data to Jira custom fields
+- Support for text, select, and user picker fields
+- Useful for tracking customer metadata
+
+### Workflow Automation
+
+Combine with Jira automation:
+
+- Auto-transition issues based on status
+- Send notifications to specific channels
+- Link related issues automatically
+- Update issue fields based on conditions
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Jira Integration"
+    icon="jira"
+    href="/integrations/jira"
+  >
+    Complete Jira integration setup
+  </Card>
+  <Card
+    title="Other Escalation Platforms"
+    icon="plug"
+    href="/escalations/slack"
+  >
+    Set up Slack, Zendesk, or Teams escalations
+  </Card>
+</CardGroup>

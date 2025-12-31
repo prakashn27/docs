@@ -1,0 +1,305 @@
+---
+title: "Zendesk Escalations"
+description: "Automatically create Zendesk tickets from escalated conversations"
+---
+
+## Overview
+
+Automatically create Zendesk support tickets when conversations need human attention, seamlessly integrating AI support with your existing ticketing system.
+
+## Requirements
+
+- Active Zendesk account
+- Zendesk integration connected (see Integration Setup below)
+- API token with ticket creation permissions
+- Appropriate support group assignments
+
+## Setup Instructions
+
+### Step 1: Connect Zendesk Integration
+
+<Card
+  title="Zendesk Integration"
+  icon="ticket"
+  href="/integrations/zendesk"
+>
+  Connect your Zendesk account first
+</Card>
+
+### Step 2: Create Escalation Path
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click **"Create Escalation Path"**
+3. Fill in the basic information:
+   - **Name**: Descriptive name (e.g., "Zendesk Support Tickets")
+   - **Platform**: Select **"Zendesk"**
+   - **Platform Integration**: Choose your connected Zendesk account
+
+### Step 3: Configure Zendesk Settings
+
+Configure ticket creation settings:
+
+- **Default Priority**: normal, low, high, or urgent
+- **Default Type**: question, incident, problem, or task
+- **Tags** (optional): Auto-apply tags (e.g., "ai-escalation", "chatbot")
+- **Group ID** (optional): Assign to specific support group
+- **Subject Template** (optional): Custom ticket subject format
+
+### Step 4: Set Up Triggers (Optional)
+
+Choose when to automatically escalate:
+
+- **Manual Only**: Only when customer requests or AI determines need
+- **Message Count**: After specific number of messages
+- **Keywords**: When certain words detected
+
+### Step 5: Save Configuration
+
+Click **"Save"** to create the escalation path.
+
+## Configuration Options
+
+| Option | Description | Required | Values |
+|--------|-------------|----------|--------|
+| Default Priority | Ticket priority level | Yes | low, normal, high, urgent |
+| Default Type | Ticket type | Yes | question, incident, problem, task |
+| Tags | Comma-separated tags | No | Any string |
+| Group ID | Zendesk group to assign | No | Numeric ID |
+| Subject Template | Custom subject format | No | Text with variables |
+
+## Priority Levels
+
+Choose the appropriate priority for escalated tickets:
+
+- **Low**: General inquiries, non-urgent questions
+- **Normal**: Standard support requests (default)
+- **High**: Important issues needing prompt attention
+- **Urgent**: Critical issues requiring immediate response
+
+## Ticket Types
+
+Select the appropriate type:
+
+- **Question**: General customer inquiries
+- **Incident**: Service disruptions or errors
+- **Problem**: Root cause of multiple incidents
+- **Task**: Work items or requests
+
+## Subject Template
+
+Customize the ticket subject line:
+
+```
+[AI Escalation] {{customer_name}} - {{escalation_reason}}
+```
+
+### Available Variables
+
+- `{{customer_name}}`: Customer's name or identifier
+- `{{channel_name}}`: Communication channel
+- `{{escalation_reason}}`: Why escalated
+- `{{agent_name}}`: AI agent name
+- `{{timestamp}}`: When escalated
+
+## Ticket Content
+
+The ticket description automatically includes:
+
+- **Escalation Reason**: Why the conversation was escalated
+- **Channel**: Where the conversation took place (Live Chat, SMS, etc.)
+- **Full Transcript**: Complete conversation history
+- **Customer Information**: Name, email, identifier
+- **Timestamp**: When escalation occurred
+- **Link to Conversation**: Direct link in Support Unicorn
+
+## Tags
+
+Use tags to categorize and track AI escalations:
+
+**Common Tags**:
+- `ai-escalation`: Identifies AI-escalated tickets
+- `chatbot`: Originated from chatbot
+- `channel-livechat` / `channel-sms`: Indicates channel
+- `billing`, `technical`, `sales`: Topic categories
+
+**Example**: `ai-escalation, chatbot, channel-livechat, billing`
+
+## Group Assignment
+
+Assign tickets to specific Zendesk groups:
+
+1. Find your group ID in Zendesk:
+   - Go to **Admin** → **People** → **Groups**
+   - Click on a group
+   - Group ID is in the URL: `.../groups/[GROUP_ID]/edit`
+
+2. Enter the Group ID in escalation settings
+
+**Example Groups**:
+- Tier 1 Support: `123456`
+- Billing Team: `234567`
+- Technical Support: `345678`
+
+## Escalation Triggers
+
+### Manual Only
+
+Create ticket only when:
+- Customer explicitly requests human help
+- AI determines it cannot assist
+
+### Message Count Trigger
+
+Create ticket after specific number of messages.
+
+**Use Case**: If conversation exceeds 5 messages, AI may not be resolving the issue.
+
+### Keyword Trigger
+
+Create ticket when keywords detected.
+
+**Example Keywords**:
+- Billing: "refund", "charge", "billing"
+- Technical: "error", "broken", "not working"
+- Escalation: "manager", "complaint"
+
+## How It Works
+
+When escalation is triggered:
+
+1. **Ticket Created**: New ticket created in Zendesk
+2. **AI Pauses**: AI agent stops responding
+3. **Agent Assigned**: Ticket routed per Zendesk rules
+4. **Context Included**: Full conversation in ticket description
+5. **Notification Sent**: Agent receives Zendesk notification
+6. **Human Response**: Agent responds through Zendesk
+
+## Managing Zendesk Escalations
+
+### Test Connection
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Find your Zendesk escalation path
+3. Click **"Test Connection"**
+4. Verify test ticket appears in Zendesk
+
+### Activate/Deactivate
+
+Toggle the **"Active"** switch to enable or disable the escalation path.
+
+### Edit Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click the Zendesk escalation path
+3. Update configuration
+4. Click **"Save Changes"**
+
+## Best Practices
+
+1. **Clear Tagging**: Use consistent tags for reporting and filtering
+2. **Appropriate Priority**: Set realistic default priorities
+3. **Group Assignment**: Route to appropriate teams
+4. **Subject Templates**: Include key information in subject
+5. **SLA Monitoring**: Track response times for escalated tickets
+6. **Regular Review**: Analyze escalation patterns to improve AI
+
+## Example Use Cases
+
+### Use Case 1: Billing Issues
+
+**Configuration**:
+- **Priority**: High
+- **Type**: Question
+- **Tags**: `ai-escalation, billing, urgent`
+- **Group**: Billing Team (ID: 234567)
+- **Trigger**: Keywords ("refund", "charge", "billing")
+
+**Scenario**: Billing inquiries get high-priority tickets to billing team.
+
+### Use Case 2: Technical Problems
+
+**Configuration**:
+- **Priority**: Normal
+- **Type**: Incident
+- **Tags**: `ai-escalation, technical, bug`
+- **Group**: Technical Support (ID: 345678)
+- **Trigger**: Keywords ("error", "broken", "not working")
+
+**Scenario**: Technical issues routed to engineering team.
+
+### Use Case 3: General Escalations
+
+**Configuration**:
+- **Priority**: Normal
+- **Type**: Question
+- **Tags**: `ai-escalation, general`
+- **Group**: Tier 1 Support (ID: 123456)
+- **Trigger**: Message count > 5
+
+**Scenario**: Extended conversations escalated to general support.
+
+## Using in Procedures
+
+Reference the escalation path in AI procedures:
+
+```markdown
+For billing issues:
+{{escalate:escal_zendesk_billing}}
+I've created a support ticket for our billing team. They'll contact you within 24 hours.
+```
+
+<Card
+  title="Procedures Guide"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Learn how to use escalations in procedures
+</Card>
+
+## Troubleshooting
+
+### Tickets Not Being Created
+
+- Verify Zendesk integration is connected and active
+- Check API token has ticket creation permissions
+- Ensure escalation path is activated
+- Test connection using "Test Connection" button
+- Review Zendesk API logs for errors
+
+### Tickets Created in Wrong Group
+
+- Verify Group ID is correct
+- Check that group exists in Zendesk
+- Ensure API user has permission to assign to group
+- Review Zendesk automation rules (may override)
+
+### Tags Not Applied
+
+- Verify tag syntax (comma-separated, no special chars)
+- Check Zendesk tag permissions
+- Ensure tags don't conflict with Zendesk triggers
+
+### Missing Conversation Context
+
+- Verify escalation template includes transcript
+- Check webhook configuration
+- Review escalation service logs
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Zendesk Integration"
+    icon="ticket"
+    href="/integrations/zendesk"
+  >
+    Complete Zendesk integration setup
+  </Card>
+  <Card
+    title="Other Escalation Platforms"
+    icon="plug"
+    href="/escalations/slack"
+  >
+    Set up Slack, Jira, or Teams escalations
+  </Card>
+</CardGroup>

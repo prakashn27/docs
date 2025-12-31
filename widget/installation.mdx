@@ -2,27 +2,7 @@
 title: "Widget Installation"
 description: "Embed the Support Unicorn chat widget on your website"
 ---
-
-## Step 1: Generate Widget Token
-
-Widget tokens are automatically generated when creating a ChatWidget:
-
-```ruby
-# In Rails console or your application
-widget = ChatWidget.create!(
-  name: "My Website Chat",
-  organization: organization,
-  configuration: configuration,
-  enabled: true
-)
-
-# widget.widget_token will be auto-generated (e.g., "wgt_abc123...")
-puts widget.widget_token
-```
-
-Save this token - you'll need it for the next step.
-
-## Step 2: Add to Your Website
+## Step 1: Add to Your Website
 
 Add this code to your website before the closing `</body>` tag:
 
@@ -79,19 +59,6 @@ Add this code to your website before the closing `</body>` tag:
 </html>
 ```
 
-## Testing Locally
-
-For local development, use `http://localhost:3000`:
-
-```html
-<script>
-  window.supportUnicornSettings = {
-    widgetToken: 'wgt_YOUR_TOKEN_HERE'
-  };
-</script>
-<script src="http://localhost:3000/sdk.js"></script>
-```
-
 ## Security
 
 ### Widget Token Authentication
@@ -100,15 +67,6 @@ For local development, use `http://localhost:3000`:
 - Tokens are validated on both HTTP and WebSocket connections
 - Invalid or disabled tokens are rejected
 - Tokens map to specific Organization + Configuration
-
-### CORS
-
-The WidgetsController sets CORS headers to allow embedding:
-
-```
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET, OPTIONS
-```
 
 ### Iframe Isolation
 

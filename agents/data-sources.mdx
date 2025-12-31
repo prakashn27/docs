@@ -13,12 +13,6 @@ Data sources are the foundation of your AI agent's knowledge base. They provide 
 
 Upload documents (PDF, Word, text, etc.) that are automatically processed:
 
-1. **Uploaded to S3** via Active Storage
-2. **Parsed by Unstructured.io** to extract text
-3. **Chunked** into smaller pieces
-4. **Embedded** using OpenAI
-5. **Stored in Turbopuffer** for vector search
-
 **Supported formats**:
 - PDF (`application/pdf`)
 - Word Documents (`.docx`, `.doc`)
@@ -33,40 +27,15 @@ Upload documents (PDF, Word, text, etc.) that are automatically processed:
 
 Create question-answer pairs for common queries:
 
-```ruby
-qna = Qna.create!(
-  organization: organization.id,
-  question: "What are your business hours?",
-  answer: "We're open Monday-Friday, 9 AM - 5 PM EST"
-)
-```
 
 ### Text Content
 
 Add custom text snippets:
 
-```ruby
-text_ds = TextDataSource.create!(
-  organization: organization.id,
-  title: "Product Features",
-  content: "Our product includes feature A, B, and C..."
-)
-```
 
 ### Websites
 
-Scrape website content:
-
-```ruby
-website_ds = WebsiteDataSource.create!(
-  organization: organization.id,
-  url: "https://example.com",
-  enabled: true
-)
-
-# Trigger crawl
-website_ds.crawl
-```
+Scrape website content
 
 ## Adding Data Sources
 
@@ -76,22 +45,6 @@ website_ds.crawl
 2. Choose data source type
 3. Upload file, add Q&A, or enter text
 4. Data source is automatically linked to agent
-
-### Via Rails Console
-
-```ruby
-# Create file data source
-file_ds = FileDataSource.create!(
-  organization: organization.id,
-  file: File.open("path/to/document.pdf")
-)
-
-# Link to agent
-AgentDataSource.create!(
-  agent: agent,
-  data_source: file_ds
-)
-```
 
 ## Processing Status
 

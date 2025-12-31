@@ -1,0 +1,371 @@
+---
+title: "Connectors"
+description: "Create connectors for fetching dynamic data via actions"
+---
+
+## Overview
+
+Connectors (also called Agent Actions) allow your AI agent to fetch dynamic data from external APIs and services in real-time. Use connectors to:
+
+- **Fetch customer data** from your CRM or database
+- **Check order status** from your e-commerce system
+- **Retrieve account information** from internal APIs
+- **Access live data** that changes frequently
+- **Integrate with third-party services**
+
+Connectors execute HTTP requests and make the response data available to your AI agent during conversations.
+
+## How Connectors Work
+
+1. **Define the connector** with HTTP method, URL, headers, and body
+2. **Reference in procedures** using `{{action:connector_name}}`
+3. **Connector executes** when procedure runs
+4. **Response data** becomes available to the AI agent
+5. **AI uses the data** to provide accurate, personalized responses
+
+## Creating a Connector
+
+### Step 1: Navigate to Connectors
+
+1. Go to **Agents** → **Your Agent** → **Connectors**
+2. Click **"Create Connector"**
+
+### Step 2: Configure Basic Settings
+
+Fill in the connector details:
+
+- **Name**: Unique identifier (e.g., `get_order_status`)
+- **Description**: What this connector does (helps AI understand when to use it)
+- **Enabled**: Toggle to activate/deactivate
+
+### Step 3: Configure HTTP Request
+
+#### HTTP Method
+
+Choose the appropriate method:
+- **GET**: Retrieve data (most common)
+- **POST**: Create or submit data
+- **PUT**: Update existing data
+- **PATCH**: Partial update
+- **DELETE**: Remove data
+
+#### URL
+
+Enter the API endpoint URL. Supports variable substitution:
+
+```
+https://api.example.com/orders/{{order_number}}
+https://api.example.com/customers/{{customer_id}}/profile
+```
+
+**Variables** are extracted from the conversation context and replaced at runtime.
+
+#### Headers (Optional)
+
+Add HTTP headers as needed:
+
+**Common Headers**:
+```
+Authorization: Bearer {{api_token}}
+Content-Type: application/json
+Accept: application/json
+X-API-Key: your-api-key
+```
+
+**Format**: One header per line in `Key: Value` format
+
+#### Request Body (Optional)
+
+For POST, PUT, PATCH requests, provide the request body:
+
+**JSON Example**:
+```json
+{
+  "customer_id": "{{customer_id}}",
+  "query": "{{customer_question}}"
+}
+```
+
+**Form Data Example**:
+```
+field1={{value1}}
+field2={{value2}}
+```
+
+### Step 4: Test the Connector
+
+1. Click **"Test Connector"**
+2. Provide sample values for variables
+3. Review the response
+4. Verify data structure is correct
+
+### Step 5: Save
+
+Click **"Save"** to create the connector.
+
+## Using Connectors in Procedures
+
+Reference connectors in your procedure content using the action syntax:
+
+```markdown
+# Order Status Check
+
+{{action:get_order_status}}
+
+{{if:order_status.status == "shipped"}}
+Great news! Your order #{{order_number}} has shipped.
+Tracking number: {{order_status.tracking_number}}
+{{endif}}
+
+{{if:order_status.status == "processing"}}
+Your order #{{order_number}} is being processed.
+Expected ship date: {{order_status.expected_ship_date}}
+{{endif}}
+```
+
+<Card
+  title="Procedures Guide"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Learn how to use connectors in procedures
+</Card>
+
+## Variable Substitution
+
+Variables in connector URLs, headers, and bodies are replaced with actual values at runtime.
+
+### Extracting Variables from Conversation
+
+The AI agent automatically extracts relevant information from the conversation:
+
+**Example Conversation**:
+```
+Customer: "What's the status of my order #12345?"
+```
+
+The AI identifies:
+- `order_number` = "12345"
+
+**Example Connector URL**:
+```
+https://api.example.com/orders/{{order_number}}
+```
+
+**Actual Request**:
+```
+https://api.example.com/orders/12345
+```
+
+### Available Variables
+
+Variables depend on conversation context and can include:
+
+- Customer information: `customer_id`, `email`, `name`
+- Order details: `order_number`, `order_id`
+- Account info: `account_id`, `username`
+- Custom fields: Any data extracted from conversation
+
+## Response Data
+
+Connector responses are available in procedure context.
+
+### Accessing Response Data
+
+Use dot notation to access nested fields:
+
+```markdown
+{{action:get_customer_info}}
+
+Customer Name: {{customer_info.name}}
+Account Status: {{customer_info.account.status}}
+Last Login: {{customer_info.last_login_date}}
+```
+
+### Response Data in Conditions
+
+Use response data in conditional logic:
+
+```markdown
+{{action:check_subscription}}
+
+{{if:subscription.status == "active"}}
+Your subscription is active.
+{{endif}}
+
+{{if:subscription.status == "expired"}}
+Your subscription has expired. Would you like to renew?
+{{endif}}
+```
+
+## Authentication
+
+Connectors support various authentication methods:
+
+### API Key Authentication
+
+**In Headers**:
+```
+X-API-Key: your-api-key-here
+```
+
+### Bearer Token
+
+**In Headers**:
+```
+Authorization: Bearer your-token-here
+```
+
+### Basic Auth
+
+**In Headers**:
+```
+Authorization: Basic base64-encoded-credentials
+```
+
+### Custom Authentication
+
+Add custom headers as needed for your API.
+
+## Best Practices
+
+1. **Clear Naming**: Use descriptive connector names (e.g., `get_order_status`, not `action1`)
+2. **Good Descriptions**: Help AI understand when to use each connector
+3. **Error Handling**: Plan for API failures and timeouts
+4. **Secure Credentials**: Store API keys securely, never in URLs
+5. **Test Thoroughly**: Test connectors with various inputs
+6. **Response Validation**: Verify response structure matches expectations
+7. **Rate Limiting**: Be mindful of API rate limits
+
+## Example Connectors
+
+### Example 1: Get Order Status
+
+**Name**: `get_order_status`
+**Description**: Fetch order status and tracking information
+**Method**: GET
+**URL**: `https://api.shop.com/orders/{{order_number}}`
+**Headers**:
+```
+Authorization: Bearer sk_live_xxxxx
+Content-Type: application/json
+```
+
+### Example 2: Check Account Balance
+
+**Name**: `get_account_balance`
+**Description**: Retrieve customer account balance
+**Method**: GET
+**URL**: `https://api.billing.com/accounts/{{account_id}}/balance`
+**Headers**:
+```
+X-API-Key: your-api-key
+```
+
+### Example 3: Update Customer Preferences
+
+**Name**: `update_preferences`
+**Description**: Update customer notification preferences
+**Method**: POST
+**URL**: `https://api.crm.com/customers/{{customer_id}}/preferences`
+**Headers**:
+```
+Authorization: Bearer token
+Content-Type: application/json
+```
+**Body**:
+```json
+{
+  "email_notifications": "{{email_pref}}",
+  "sms_notifications": "{{sms_pref}}"
+}
+```
+
+### Example 4: Search Knowledge Base
+
+**Name**: `search_internal_kb`
+**Description**: Search internal knowledge base for answers
+**Method**: POST
+**URL**: `https://kb.company.com/search`
+**Headers**:
+```
+X-API-Key: kb_key
+```
+**Body**:
+```json
+{
+  "query": "{{search_query}}",
+  "limit": 5
+}
+```
+
+## Troubleshooting
+
+### Connector Not Executing
+
+- Verify connector is **enabled**
+- Check connector is referenced correctly in procedure
+- Ensure procedure is active and assigned to agent
+
+### Variables Not Substituting
+
+- Verify variable names match conversation context
+- Check variable syntax: `{{variable_name}}`
+- Ensure AI successfully extracted the variable from conversation
+
+### API Errors
+
+- Test connector with valid sample data
+- Verify API endpoint URL is correct
+- Check authentication credentials are valid
+- Review API documentation for required headers/body
+
+### Timeout Errors
+
+- Check API response time
+- Verify network connectivity
+- Consider increasing timeout settings
+- Optimize API query if possible
+
+### Response Data Not Available
+
+- Verify API returns expected data structure
+- Check for API errors in response
+- Ensure response is valid JSON (if expected)
+- Review procedure syntax for accessing response fields
+
+## Security Considerations
+
+1. **Secure API Keys**: Never expose API keys in URLs
+2. **HTTPS Only**: Always use HTTPS for API endpoints
+3. **Validate Input**: Ensure extracted variables are validated
+4. **Minimal Permissions**: Use API keys with minimal required permissions
+5. **Rotate Credentials**: Regularly rotate API keys and tokens
+6. **Monitor Usage**: Track connector usage for anomalies
+
+## Performance Tips
+
+1. **Cache When Possible**: Use cached data for frequently accessed information
+2. **Minimize Calls**: Combine multiple data points in one API call when possible
+3. **Optimize Queries**: Use efficient API queries
+4. **Set Timeouts**: Configure appropriate timeout values
+5. **Handle Failures**: Gracefully handle API failures
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Procedures"
+    icon="gears"
+    href="/agents/procedures"
+  >
+    Learn how to use connectors in procedures
+  </Card>
+  <Card
+    title="Data Sources"
+    icon="database"
+    href="/agents/data-sources"
+  >
+    Add static knowledge base content
+  </Card>
+</CardGroup>

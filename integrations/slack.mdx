@@ -103,15 +103,12 @@ Use the Slack shortcut to broadcast messages:
 
 ### Channel Mapping
 
-Each Configuration can be mapped to a specific Slack channel:
+Map your configuration to a specific Slack channel:
 
-```ruby
-# In Rails console
-config = Configuration.find(id)
-config.update!(
-  sink_main: "#support-channel"  # Slack channel name
-)
-```
+1. Navigate to **Agents** → **Your Agent** → **Settings**
+2. In the Configuration section, find **"Slack Channel"**
+3. Enter the channel name (e.g., `#support-channel`)
+4. Click **"Save Changes"**
 
 ### AI Agent Integration
 

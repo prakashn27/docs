@@ -1,0 +1,255 @@
+---
+title: "Slack Escalations"
+description: "Escalate conversations to Slack channels for human support"
+---
+
+## Overview
+
+Escalate customer conversations to Slack channels, enabling your support team to receive real-time notifications and respond directly through Slack.
+
+## Requirements
+
+- Active Slack workspace
+- Slack integration connected (see Integration Setup below)
+- Slack channel for escalation notifications
+- Appropriate permissions to post messages
+
+## Setup Instructions
+
+### Step 1: Connect Slack Integration
+
+<Card
+  title="Slack Integration"
+  icon="slack"
+  href="/integrations/slack"
+>
+  Connect your Slack workspace first
+</Card>
+
+### Step 2: Create Escalation Path
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click **"Create Escalation Path"**
+3. Fill in the basic information:
+   - **Name**: Descriptive name (e.g., "Support Team Slack")
+   - **Platform**: Select **"Slack"**
+   - **Platform Integration**: Choose your connected Slack workspace
+
+### Step 3: Configure Slack Settings
+
+Configure the following Slack-specific settings:
+
+- **Escalation Channel**: The Slack channel where notifications will be sent (e.g., `#customer-support`)
+- **Notification Template** (optional): Custom message format for escalations
+- **Mention Users** (optional): Automatically mention specific users (e.g., `@oncall`)
+- **Thread Replies**: Enable to keep conversation in threads
+
+### Step 4: Set Up Triggers (Optional)
+
+Choose when to automatically escalate:
+
+- **Manual Only**: Only when customer requests or AI determines need
+- **Message Count**: After specific number of messages (e.g., 5)
+- **Keywords**: When certain words detected (e.g., "urgent", "manager")
+
+### Step 5: Save Configuration
+
+Click **"Save"** to create the escalation path.
+
+## Configuration Options
+
+| Option | Description | Required |
+|--------|-------------|----------|
+| Escalation Channel | Slack channel for notifications | Yes |
+| Notification Template | Custom message format | No |
+| Mention Users | Users to tag in notifications | No |
+| Thread Replies | Use threaded responses | No |
+
+## Notification Template
+
+Customize the message sent to Slack:
+
+```
+🚨 New Escalation from Live Chat
+
+Customer: {{customer_name}}
+Channel: {{channel_name}}
+Reason: {{escalation_reason}}
+
+Conversation Summary:
+{{conversation_summary}}
+
+View full conversation: {{conversation_url}}
+```
+
+### Available Variables
+
+- `{{customer_name}}`: Customer's name or identifier
+- `{{channel_name}}`: Communication channel (Live Chat, SMS, etc.)
+- `{{escalation_reason}}`: Why the conversation was escalated
+- `{{conversation_summary}}`: Brief summary of the conversation
+- `{{conversation_url}}`: Link to full conversation in Support Unicorn
+- `{{agent_name}}`: Name of the AI agent
+
+## Escalation Triggers
+
+### Manual Only
+
+AI agent escalates only when:
+- Customer explicitly requests human help
+- AI determines it cannot assist (low confidence)
+
+### Message Count Trigger
+
+Automatically escalate after a specific number of customer messages.
+
+**Example**: If conversation exceeds 5 messages, the AI may not be resolving the issue.
+
+### Keyword Trigger
+
+Escalate when specific keywords are detected in customer messages.
+
+**Example Keywords**:
+- Urgent: "urgent", "asap", "emergency"
+- Escalation: "manager", "supervisor", "escalate"
+- Dissatisfaction: "unacceptable", "frustrated", "complaint"
+
+## How It Works
+
+When escalation is triggered:
+
+1. **Slack Notification**: Message posted to configured channel
+2. **AI Pauses**: AI agent stops responding to the conversation
+3. **Team Notified**: Support team members receive Slack notification
+4. **Context Included**: Full conversation history shared
+5. **Human Takeover**: Team member responds through original channel
+
+## Managing Slack Escalations
+
+### Test Connection
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Find your Slack escalation path
+3. Click **"Test Connection"**
+4. Verify test message appears in Slack channel
+
+### Activate/Deactivate
+
+Toggle the **"Active"** switch to enable or disable the escalation path.
+
+### Edit Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click the Slack escalation path
+3. Update configuration
+4. Click **"Save Changes"**
+
+### Set Priority
+
+If you have multiple escalation paths, drag and drop to set priority order.
+
+## Best Practices
+
+1. **Dedicated Channel**: Use a specific channel for escalations (e.g., `#ai-escalations`)
+2. **Clear Notifications**: Include relevant context in notification templates
+3. **Mention On-Call**: Tag the current on-call support person
+4. **Thread Conversations**: Enable threading to keep channel organized
+5. **Monitor Response Time**: Track how quickly team responds to escalations
+6. **Regular Testing**: Test the escalation path weekly
+
+## Example Use Cases
+
+### Use Case 1: General Support Escalations
+
+**Configuration**:
+- **Channel**: `#customer-support`
+- **Trigger**: Message count > 5
+- **Mentions**: `@oncall`
+- **Thread Replies**: Enabled
+
+**Scenario**: When conversation goes back and forth more than 5 times, escalate to on-call support.
+
+### Use Case 2: Urgent Issues
+
+**Configuration**:
+- **Channel**: `#urgent-support`
+- **Trigger**: Keywords ("urgent", "emergency", "critical")
+- **Mentions**: `@support-lead` `@oncall`
+- **Thread Replies**: Disabled
+
+**Scenario**: Immediately notify leadership when urgent keywords detected.
+
+### Use Case 3: Billing Inquiries
+
+**Configuration**:
+- **Channel**: `#billing-team`
+- **Trigger**: Keywords ("refund", "charge", "billing", "payment")
+- **Mentions**: `@billing-team`
+- **Thread Replies**: Enabled
+
+**Scenario**: Route billing-related conversations to specialized billing team.
+
+## Using in Procedures
+
+Reference the escalation path in your AI agent procedures:
+
+```markdown
+If the customer needs more help:
+{{escalate:escal_slack_support}}
+I've notified our support team. Someone will assist you shortly!
+```
+
+<Card
+  title="Procedures Guide"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Learn how to use escalations in procedures
+</Card>
+
+## Troubleshooting
+
+### Notifications Not Appearing in Slack
+
+- Verify Slack integration is connected and active
+- Check that the channel name is correct (include `#`)
+- Ensure bot has permission to post in the channel
+- Invite the Support Unicorn bot to the channel
+- Test connection using "Test Connection" button
+
+### Mentions Not Working
+
+- Verify user handles are correct (e.g., `@username`)
+- Use user IDs instead of display names for reliability
+- Ensure mentioned users have access to the channel
+
+### Duplicate Notifications
+
+- Check for multiple active escalation paths with same triggers
+- Review trigger conditions to make them more specific
+- Set priority order to control which path fires first
+
+### Messages Missing Context
+
+- Verify notification template includes conversation variables
+- Check that webhook is configured correctly
+- Review escalation service logs for errors
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Slack Integration"
+    icon="slack"
+    href="/integrations/slack"
+  >
+    Complete Slack integration setup
+  </Card>
+  <Card
+    title="Other Escalation Platforms"
+    icon="plug"
+    href="/escalations/zendesk"
+  >
+    Set up Zendesk, Jira, or Teams escalations
+  </Card>
+</CardGroup>

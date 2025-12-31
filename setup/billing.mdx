@@ -151,24 +151,11 @@ Copy the `whsec_...` value and add to `.env.development`.
 
 ## Testing
 
-### Test Credit System
-
-```ruby
-# In Rails console
-org = Organization.first
-org.credits_balance  # Should be 50 (default)
-org.can_use_ai?      # Should be true
-```
-
 ### Test Stripe Integration
 
 Use Stripe test cards:
 - **Success**: `4242 4242 4242 4242`
 - **Decline**: `4000 0000 0000 0002`
-
-### Monitor Jobs
-
-Visit `http://localhost:3000/jobs` to monitor background jobs.
 
 ## Configuration Options
 

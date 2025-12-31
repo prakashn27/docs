@@ -66,37 +66,16 @@ The Twilio integration enables:
    - **WhatsApp number** (if using WhatsApp)
 4. Click **"Save"**
 
-## Usage
+## How It Works
 
 ### Sending Messages
 
-#### Via API
+Messages are sent automatically by your AI agent when:
+- Responding to customer inquiries on SMS or WhatsApp channels
+- Following up on escalated conversations
+- Executing procedures that trigger message actions
 
-```ruby
-# In Rails console or your code
-twilio_service = TwilioService.new(organization)
-
-# Send SMS
-twilio_service.send_sms(
-  to: '+1234567890',
-  from: '+0987654321',
-  body: 'Hello! How can we help you?'
-)
-
-# Send WhatsApp
-twilio_service.send_whatsapp(
-  to: 'whatsapp:+1234567890',
-  from: 'whatsapp:+0987654321',
-  body: 'Hello! How can we help you?'
-)
-```
-
-#### Via Routes
-
-```
-POST /twilio/sms/send/:organization_id/:from
-POST /twilio/whatsapp/send/:organization_id/:from
-```
+The Twilio integration handles all message delivery automatically once channels are configured.
 
 ### Receiving Messages
 

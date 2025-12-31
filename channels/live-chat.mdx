@@ -1,0 +1,135 @@
+---
+title: "Live Chat Widget"
+description: "Enable real-time chat on your website"
+---
+
+## Overview
+
+The Live Chat widget allows customers to chat with your AI agent directly on your website with real-time WebSocket communication.
+
+## Features
+
+- **Real-time Communication**: WebSocket-powered instant messaging
+- **Customizable Appearance**: Match your brand colors and style
+- **Mobile Responsive**: Works seamlessly on all devices
+- **File Attachments**: Support for document and image uploads
+- **Session Management**: Persistent conversations across page reloads
+
+## Setup Instructions
+
+### Step 1: Create the Channel
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click **"Create Channel"**
+3. Select **"Live Chat"** as the channel type
+
+### Step 2: Configure the Widget
+
+Configure the following settings:
+
+- **Widget Name**: Display name shown to customers (e.g., "Support Chat")
+- **Allowed Domains**: Websites where the widget can be embedded (e.g., `example.com`)
+
+### Step 3: Save and Get Installation Code
+
+1. Click **"Save"**
+2. Copy the widget installation code provided
+3. Add the code to your website's HTML (before the closing `</body>` tag)
+
+## Installation
+
+Add the widget code snippet to your website:
+
+```html
+<script src="https://yourdomain.com/widget.js" data-agent-id="your_agent_id"></script>
+```
+
+<Card
+  title="Widget Installation Guide"
+  icon="code"
+  href="/widget/installation"
+>
+  Detailed installation and customization instructions
+</Card>
+
+## Configuration Options
+
+| Option | Description | Required |
+|--------|-------------|----------|
+| Widget Name | Display name for the widget | Yes |
+| Allowed Domains | Comma-separated list of allowed domains | No |
+
+## Managing the Channel
+
+### Activate/Deactivate
+
+Toggle the **"Active"** switch to enable or disable the channel without deleting it.
+
+**Note:** Deactivated channels will not accept new conversations, but existing conversations remain accessible.
+
+### Edit Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the Live Chat channel
+3. Update the configuration
+4. Click **"Save Changes"**
+
+### Delete Channel
+
+**Warning:** You cannot delete a channel that has active conversations.
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the Live Chat channel
+3. Click **"Delete Channel"**
+4. Confirm the deletion
+
+## Best Practices
+
+1. **Test First**: Install the widget on a staging site before production
+2. **Secure Domains**: Only add trusted domains to the allowed list
+3. **Monitor Performance**: Track response times and customer satisfaction
+4. **Keep Updated**: Regularly check for widget updates and improvements
+5. **Mobile Testing**: Verify widget works well on mobile devices
+
+## Troubleshooting
+
+### Widget Not Appearing
+
+- Verify the widget code is installed correctly on your website
+- Check that the domain is listed in allowed domains
+- Ensure the channel is activated
+- Clear browser cache and refresh the page
+- Check browser console for JavaScript errors
+
+### Messages Not Sending
+
+- Verify internet connection is stable
+- Check that WebSocket connections are not blocked by firewall
+- Ensure the agent has active data sources configured
+- Check browser console for connection errors
+
+### Widget Displaying Incorrectly
+
+- Check for CSS conflicts with your website
+- Verify widget code is placed before `</body>` tag
+- Clear browser cache and hard reload
+- Test in different browsers to isolate the issue
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Widget Configuration"
+    icon="palette"
+    href="/widget/configuration"
+  >
+    Customize widget appearance and behavior
+  </Card>
+  <Card
+    title="Widget JavaScript API"
+    icon="code"
+    href="/widget/javascript-api"
+  >
+    Programmatically control the widget
+  </Card>
+</CardGroup>

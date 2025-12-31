@@ -17,18 +17,14 @@
             "group": "Getting Started",
             "pages": [
               "index",
-              "getting-started/overview",
-              "getting-started/installation",
-              "getting-started/quickstart"
+              "getting-started/overview"
             ]
           },
           {
             "group": "Widget Integration",
             "pages": [
-              "widget/overview",
               "widget/installation",
-              "widget/configuration",
-              "widget/javascript-api"
+              "widget/configuration"
             ]
           },
           {
@@ -37,14 +33,24 @@
               "agents/overview",
               "agents/data-sources",
               "agents/procedures",
-              "agents/workflows"
+              "agents/connectors"
             ]
           },
           {
-            "group": "Communication",
+            "group": "Channels",
             "pages": [
-              "agents/channels",
-              "agents/escalations"
+              "channels/live-chat",
+              "channels/sms",
+              "channels/whatsapp"
+            ]
+          },
+          {
+            "group": "Escalations",
+            "pages": [
+              "escalations/slack",
+              "escalations/zendesk",
+              "escalations/jira",
+              "escalations/teams"
             ]
           },
           {
@@ -52,8 +58,7 @@
             "pages": [
               "integrations/slack",
               "integrations/zendesk",
-              "integrations/twilio",
-              "integrations/google"
+              "integrations/twilio"
             ]
           },
           {
@@ -62,14 +67,6 @@
               "setup/billing",
               "setup/file-processing",
               "setup/zendesk-sidebar"
-            ]
-          },
-          {
-            "group": "API & Webhooks",
-            "pages": [
-              "api/overview",
-              "api/authentication",
-              "api/webhooks"
             ]
           }
         ]

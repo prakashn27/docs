@@ -1,0 +1,201 @@
+---
+title: "WhatsApp (Twilio)"
+description: "Connect your AI agent to WhatsApp Business"
+---
+
+## Overview
+
+Connect your AI agent to WhatsApp Business via Twilio's WhatsApp API, enabling customers to reach you through the world's most popular messaging platform.
+
+## Requirements
+
+Before setting up WhatsApp, you'll need:
+
+- **Twilio Account**: Active account with WhatsApp Business API enabled
+- **WhatsApp-Enabled Number**: Twilio phone number with WhatsApp capabilities
+- **Twilio Credentials**:
+  - Account SID
+  - Auth Token
+- **WhatsApp Business Profile**: Approved business profile on Twilio
+
+## Setup Instructions
+
+### Step 1: Enable WhatsApp on Twilio
+
+1. Log in to your [Twilio Console](https://console.twilio.com/)
+2. Navigate to **Messaging** → **Try it out** → **Send a WhatsApp message**
+3. Follow Twilio's WhatsApp setup wizard
+4. Get your WhatsApp-enabled phone number
+
+### Step 2: Create the Channel
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click **"Create Channel"**
+3. Select **"WhatsApp (Twilio)"** as the channel type
+
+### Step 3: Configure WhatsApp Settings
+
+Enter the following information:
+
+- **Phone Number**: Your Twilio WhatsApp number in E.164 format (e.g., `+14155552671`)
+- **Display Name**: Business name shown to customers (optional)
+- **Twilio Account SID**: Found in your Twilio console
+- **Twilio Auth Token**: Found in your Twilio console
+
+### Step 4: Save Configuration
+
+Click **"Save"** to create the WhatsApp channel.
+
+## Phone Number Format
+
+WhatsApp phone numbers must be in **E.164 format**:
+
+- Format: `+[country code][number]`
+- Include the `whatsapp:` prefix when using Twilio API
+- Example: `whatsapp:+14155552671`
+
+## Configuration Options
+
+| Option | Description | Required |
+|--------|-------------|----------|
+| Phone Number | Twilio WhatsApp number (E.164 format) | Yes |
+| Display Name | Business name shown to customers | No |
+| Twilio Account SID | Your Twilio Account SID | Yes |
+| Twilio Auth Token | Your Twilio Auth Token | Yes |
+
+## WhatsApp Business Features
+
+### Message Templates
+
+WhatsApp requires pre-approved message templates for outbound messages:
+
+1. Create templates in Twilio Console
+2. Submit for WhatsApp approval
+3. Use approved templates for notifications
+
+### Rich Media Support
+
+- **Images**: Send and receive image files
+- **Documents**: PDF, DOC, and other file formats
+- **Location**: Share location information
+- **Quick Replies**: Interactive button messages
+
+### Business Profile
+
+Ensure your WhatsApp Business Profile includes:
+
+- Business name
+- Business description
+- Profile photo
+- Business category
+- Contact information
+
+<Card
+  title="Twilio WhatsApp Guide"
+  icon="message"
+  href="/integrations/twilio"
+>
+  Complete WhatsApp setup and template configuration
+</Card>
+
+## Managing the Channel
+
+### Activate/Deactivate
+
+Toggle the **"Active"** switch to enable or disable WhatsApp without deleting the channel.
+
+### Edit Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the WhatsApp channel
+3. Update configuration
+4. Click **"Save Changes"**
+
+### Delete Channel
+
+1. Navigate to **Agents** → **Your Agent** → **Channels**
+2. Click the WhatsApp channel
+3. Click **"Delete Channel"**
+4. Confirm deletion
+
+## Best Practices
+
+1. **Template Approval**: Prepare and approve message templates early
+2. **24-Hour Window**: Respond within 24 hours to avoid template requirements
+3. **Rich Media**: Use images and documents to enhance support
+4. **Business Profile**: Keep your profile complete and professional
+5. **Opt-In Compliance**: Ensure customers opt-in to WhatsApp communication
+6. **Response Quality**: Maintain high-quality, helpful responses
+
+## WhatsApp Policies
+
+Follow WhatsApp Business policies:
+
+- **Opt-In Required**: Customers must opt-in to receive messages
+- **No Spam**: Only send relevant, requested content
+- **24-Hour Window**: Free-form messages only within 24 hours of customer message
+- **Template Messages**: Use approved templates outside 24-hour window
+- **Quality Rating**: Maintain good quality rating to avoid restrictions
+
+## Troubleshooting
+
+### Not Receiving Messages
+
+- Verify WhatsApp is enabled on your Twilio number
+- Check phone number is in correct E.164 format
+- Ensure Twilio webhook is configured correctly
+- Verify Twilio credentials are valid
+- Check Twilio account has sufficient balance
+
+### Cannot Send Messages
+
+- Ensure you're within the 24-hour messaging window
+- Use approved message templates for outbound messages
+- Verify business profile is complete and approved
+- Check quality rating hasn't restricted your account
+- Review WhatsApp Business policies compliance
+
+### Template Issues
+
+- Verify templates are submitted and approved
+- Check template syntax and placeholders
+- Ensure template category matches use case
+- Wait for approval (can take 24-48 hours)
+
+### Quality Rating Problems
+
+- Review message quality and relevance
+- Avoid spammy or promotional content
+- Ensure customers opted in
+- Respond promptly to customer messages
+- Monitor block and report rates
+
+## Cost Considerations
+
+- **Inbound Messages**: Free (covered by WhatsApp)
+- **Outbound Messages**:
+  - Within 24-hour window: Free
+  - Template messages: Per-message fee
+- **Phone Number**: Monthly Twilio rental fee
+- **Template Approvals**: No additional cost
+
+Refer to [Twilio WhatsApp Pricing](https://www.twilio.com/whatsapp/pricing) for current rates.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Twilio Integration"
+    icon="message"
+    href="/integrations/twilio"
+  >
+    Configure webhooks and message templates
+  </Card>
+  <Card
+    title="SMS Channel"
+    icon="comment"
+    href="/channels/sms"
+  >
+    Set up SMS messaging support
+  </Card>
+</CardGroup>

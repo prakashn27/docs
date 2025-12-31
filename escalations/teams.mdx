@@ -1,0 +1,362 @@
+---
+title: "Microsoft Teams Escalations"
+description: "Escalate conversations to Microsoft Teams channels"
+---
+
+## Overview
+
+Escalate customer conversations to Microsoft Teams channels, enabling your support team to receive real-time notifications and collaborate on customer issues within Teams.
+
+## Requirements
+
+- Active Microsoft Teams workspace
+- Microsoft Teams integration connected (see Integration Setup below)
+- Teams channel for escalation notifications
+- Appropriate permissions to post messages
+
+## Setup Instructions
+
+### Step 1: Connect Teams Integration
+
+<Card
+  title="Microsoft Teams Integration"
+  icon="microsoft"
+  href="/integrations/teams"
+>
+  Connect your Microsoft Teams workspace first
+</Card>
+
+### Step 2: Create Escalation Path
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click **"Create Escalation Path"**
+3. Fill in the basic information:
+   - **Name**: Descriptive name (e.g., "Teams Support Channel")
+   - **Platform**: Select **"Microsoft Teams"**
+   - **Platform Integration**: Choose your connected Teams workspace
+
+### Step 3: Configure Teams Settings
+
+Configure the following Teams-specific settings:
+
+- **Team ID**: The Teams team to notify
+- **Channel ID**: The specific channel for notifications
+- **Notification Template** (optional): Custom message format
+- **Mention Users** (optional): Automatically mention team members
+- **Adaptive Card Template** (optional): Use custom card design
+
+### Step 4: Set Up Triggers (Optional)
+
+Choose when to automatically escalate:
+
+- **Manual Only**: Only when customer requests or AI determines need
+- **Message Count**: After specific number of messages
+- **Keywords**: When certain words detected
+
+### Step 5: Save Configuration
+
+Click **"Save"** to create the escalation path.
+
+## Configuration Options
+
+| Option | Description | Required |
+|--------|-------------|----------|
+| Team ID | Microsoft Teams team identifier | Yes |
+| Channel ID | Channel for notifications | Yes |
+| Notification Template | Custom message format | No |
+| Mention Users | Users to tag in notifications | No |
+| Adaptive Card Template | Custom card design (JSON) | No |
+
+## Getting Team and Channel IDs
+
+### Method 1: Via Teams Web App
+
+1. Open Teams in web browser
+2. Navigate to the desired channel
+3. URL format: `https://teams.microsoft.com/...teams/[TEAM_ID]/channels/[CHANNEL_ID]`
+4. Copy the IDs from the URL
+
+### Method 2: Via Graph Explorer
+
+1. Go to [Graph Explorer](https://developer.microsoft.com/graph/graph-explorer)
+2. Sign in with Microsoft account
+3. Query: `GET /me/joinedTeams` to list teams
+4. Query: `GET /teams/{team-id}/channels` to list channels
+
+## Notification Template
+
+Customize the message sent to Teams:
+
+```
+🚨 **New Customer Escalation**
+
+**Customer**: {{customer_name}}
+**Channel**: {{channel_name}}
+**Reason**: {{escalation_reason}}
+
+**Conversation Summary**:
+{{conversation_summary}}
+
+[View Full Conversation]({{conversation_url}})
+```
+
+### Available Variables
+
+- `{{customer_name}}`: Customer's name or identifier
+- `{{channel_name}}`: Communication channel (Live Chat, SMS, etc.)
+- `{{escalation_reason}}`: Why the conversation was escalated
+- `{{conversation_summary}}`: Brief summary of conversation
+- `{{conversation_url}}`: Link to full conversation
+- `{{agent_name}}`: Name of the AI agent
+- `{{timestamp}}`: When escalation occurred
+
+## Adaptive Cards
+
+Use Adaptive Cards for rich, interactive notifications:
+
+```json
+{
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "🚨 Customer Escalation",
+      "weight": "Bolder",
+      "size": "Large"
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "Customer:",
+          "value": "{{customer_name}}"
+        },
+        {
+          "title": "Channel:",
+          "value": "{{channel_name}}"
+        },
+        {
+          "title": "Reason:",
+          "value": "{{escalation_reason}}"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "{{conversation_summary}}",
+      "wrap": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "View Conversation",
+      "url": "{{conversation_url}}"
+    }
+  ]
+}
+```
+
+<Card
+  title="Adaptive Cards Designer"
+  icon="palette"
+  href="https://adaptivecards.io/designer/"
+>
+  Design custom Adaptive Cards
+</Card>
+
+## Mentioning Users
+
+Tag specific users in notifications:
+
+**Format**: Use Azure AD User Principal Name (UPN)
+- Example: `john.doe@company.com`
+- Or use Teams User ID
+
+**Multiple Users**: Separate with commas
+- Example: `john.doe@company.com, jane.smith@company.com`
+
+## Escalation Triggers
+
+### Manual Only
+
+Escalate only when:
+- Customer explicitly requests human help
+- AI determines it cannot assist (low confidence)
+
+### Message Count Trigger
+
+Automatically escalate after a specific number of customer messages.
+
+**Use Case**: If conversation exceeds 5 messages, AI may not be resolving the issue.
+
+### Keyword Trigger
+
+Escalate when specific keywords are detected.
+
+**Example Keywords**:
+- Urgent: "urgent", "asap", "emergency"
+- Escalation: "manager", "supervisor"
+- Dissatisfaction: "frustrated", "complaint", "unacceptable"
+
+## How It Works
+
+When escalation is triggered:
+
+1. **Teams Notification**: Message or Adaptive Card posted to channel
+2. **AI Pauses**: AI agent stops responding to conversation
+3. **Team Notified**: Team members receive Teams notification
+4. **Context Included**: Full conversation history shared
+5. **Human Takeover**: Team member responds through original channel
+
+## Managing Teams Escalations
+
+### Test Connection
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Find your Teams escalation path
+3. Click **"Test Connection"**
+4. Verify test message appears in Teams channel
+
+### Activate/Deactivate
+
+Toggle the **"Active"** switch to enable or disable the escalation path.
+
+### Edit Settings
+
+1. Navigate to **Agents** → **Your Agent** → **Escalations**
+2. Click the Teams escalation path
+3. Update configuration
+4. Click **"Save Changes"**
+
+### Set Priority
+
+If you have multiple escalation paths, drag and drop to set priority order.
+
+## Best Practices
+
+1. **Dedicated Channel**: Use specific channel for escalations
+2. **Rich Cards**: Use Adaptive Cards for better context and actions
+3. **Mention On-Call**: Tag current on-call support person
+4. **Clear Formatting**: Use bold, bullets for readability
+5. **Action Buttons**: Include links to view full conversation
+6. **Monitor Response**: Track how quickly team responds
+
+## Example Use Cases
+
+### Use Case 1: General Support Escalations
+
+**Configuration**:
+- **Team**: Customer Success
+- **Channel**: Support Escalations
+- **Trigger**: Message count > 5
+- **Mentions**: On-call support agent
+- **Adaptive Card**: Standard escalation template
+
+**Scenario**: Extended conversations escalated to on-call support.
+
+### Use Case 2: VIP Customer Issues
+
+**Configuration**:
+- **Team**: Account Management
+- **Channel**: VIP Support
+- **Trigger**: Manual (detected by AI)
+- **Mentions**: Account manager, Support lead
+- **Adaptive Card**: VIP customer template with priority badge
+
+**Scenario**: High-value customer issues get immediate attention from account team.
+
+### Use Case 3: Technical Escalations
+
+**Configuration**:
+- **Team**: Engineering
+- **Channel**: Customer-Reported Issues
+- **Trigger**: Keywords ("error", "bug", "broken")
+- **Mentions**: Engineering on-call
+- **Adaptive Card**: Technical issue template
+
+**Scenario**: Technical problems routed to engineering team.
+
+## Using in Procedures
+
+Reference the escalation path in AI procedures:
+
+```markdown
+For urgent assistance:
+{{escalate:escal_teams_support}}
+I've notified our support team in Microsoft Teams. Someone will help you right away!
+```
+
+<Card
+  title="Procedures Guide"
+  icon="gears"
+  href="/agents/procedures"
+>
+  Learn how to use escalations in procedures
+</Card>
+
+## Troubleshooting
+
+### Notifications Not Appearing
+
+- Verify Teams integration is connected and active
+- Check Team ID and Channel ID are correct
+- Ensure bot has permission to post in channel
+- Add Support Unicorn app to the team/channel
+- Test connection using "Test Connection" button
+
+### Invalid Team or Channel ID
+
+- Verify IDs are copied correctly (no extra spaces)
+- Check that team and channel exist
+- Ensure you have access to the team/channel
+- Use Graph Explorer to verify IDs
+
+### Mentions Not Working
+
+- Verify email addresses are correct (UPNs)
+- Use Azure AD email, not display name
+- Ensure mentioned users have access to channel
+- Check for typos in email addresses
+
+### Adaptive Cards Not Rendering
+
+- Validate JSON syntax using Adaptive Cards Designer
+- Ensure card version is supported (1.4 or lower)
+- Check that all required properties are included
+- Verify template variables are correctly formatted
+
+### Duplicate Notifications
+
+- Check for multiple active escalation paths with same triggers
+- Make trigger conditions more specific
+- Set priority order to control which path fires first
+
+## Permissions
+
+Ensure the Teams app has:
+
+- **Send messages**: Post notifications to channels
+- **Post Adaptive Cards**: Use rich card templates
+- **Read team members**: For @mentions
+- **Channel access**: Added to escalation channel
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Microsoft Teams Integration"
+    icon="microsoft"
+    href="/integrations/teams"
+  >
+    Complete Teams integration setup
+  </Card>
+  <Card
+    title="Other Escalation Platforms"
+    icon="plug"
+    href="/escalations/slack"
+  >
+    Set up Slack, Zendesk, or Jira escalations
+  </Card>
+</CardGroup>

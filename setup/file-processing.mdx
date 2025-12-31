@@ -154,23 +154,6 @@ turbopuffer.delete_file_chunks(file_data_source.id)
 
 ## Monitoring
 
-### Check Job Status
-
-```ruby
-# In Rails console
-bin/rails console
-
-# Check queued jobs
-SolidQueue::Job.where(queue_name: "file_processing").count
-
-# Check failed jobs
-SolidQueue::FailedExecution.all
-
-# Retry failed job
-failed_job = SolidQueue::FailedExecution.last
-failed_job.retry
-```
-
 ### View Logs
 
 ```bash
