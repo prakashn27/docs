@@ -21,13 +21,6 @@
             ]
           },
           {
-            "group": "Widget Integration",
-            "pages": [
-              "widget/installation",
-              "widget/configuration"
-            ]
-          },
-          {
             "group": "AI Agents",
             "pages": [
               "agents/overview",
@@ -48,6 +41,13 @@
             "group": "Escalations",
             "pages": [
               "escalations/zendesk"
+            ]
+          },
+           {
+            "group": "Widget Integration",
+            "pages": [
+              "widget/installation",
+              "widget/configuration"
             ]
           },
           {
