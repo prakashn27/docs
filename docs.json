@@ -47,26 +47,14 @@
           {
             "group": "Escalations",
             "pages": [
-              "escalations/slack",
-              "escalations/zendesk",
-              "escalations/jira",
-              "escalations/teams"
+              "escalations/zendesk"
             ]
           },
           {
             "group": "Integrations",
             "pages": [
-              "integrations/slack",
               "integrations/zendesk",
-              "integrations/twilio"
-            ]
-          },
-          {
-            "group": "Setup & Configuration",
-            "pages": [
-              "setup/billing",
-              "setup/file-processing",
-              "setup/zendesk-sidebar"
+              "integrations/slack"
             ]
           }
         ]

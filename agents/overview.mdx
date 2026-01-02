@@ -35,14 +35,6 @@ Each agent has configuration settings:
 - **Temperature**: AI creativity level (0-1)
 - **Max Tokens**: Maximum response length
 
-### Procedures
-
-Agents can use procedures for structured workflows:
-
-- **Conditional logic**: `{{if:condition}}` blocks
-- **Actions**: `{{action:action_name}}` for data fetching
-- **Escalations**: `{{escalate:path_id}}` for human handoff
-
 ## Creating an Agent
 
 ### Step 1: Create Agent
@@ -84,14 +76,8 @@ Agents can use procedures for structured workflows:
 ## Agent Features
 
 <AccordionGroup>
-  <Accordion title="Vector Search">
-    Uses Turbopuffer for semantic search to find relevant context from your knowledge base.
-  </Accordion>
   <Accordion title="Multi-Source Knowledge">
     Combines information from files, Q&As, texts, and websites.
-  </Accordion>
-  <Accordion title="Procedures">
-    Execute structured workflows with conditional logic and actions.
   </Accordion>
   <Accordion title="Escalations">
     Seamlessly hand off to human agents when needed.
@@ -109,21 +95,5 @@ Agents can use procedures for structured workflows:
   href="/agents/data-sources"
 >
   Learn how to build your knowledge base
-</Card>
-
-<Card
-  title="Procedures"
-  icon="gears"
-  href="/agents/procedures"
->
-  Create structured workflows
-</Card>
-
-<Card
-  title="Workflows"
-  icon="diagram"
-  href="/agents/workflows"
->
-  Build automation workflows
 </Card>
 

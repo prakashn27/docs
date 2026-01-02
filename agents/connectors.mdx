@@ -1,11 +1,11 @@
 ---
-title: "Connectors"
-description: "Create connectors for fetching dynamic data via actions"
+title: "Actions"
+description: "Create actions for fetching dynamic data"
 ---
 
 ## Overview
 
-Connectors (also called Agent Actions) allow your AI agent to fetch dynamic data from external APIs and services in real-time. Use connectors to:
+Actions (also called Agent Actions) allow your AI agent to fetch dynamic data from external APIs and services in real-time. Use actions to:
 
 - **Fetch customer data** from your CRM or database
 - **Check order status** from your e-commerce system
@@ -13,26 +13,26 @@ Connectors (also called Agent Actions) allow your AI agent to fetch dynamic data
 - **Access live data** that changes frequently
 - **Integrate with third-party services**
 
-Connectors execute HTTP requests and make the response data available to your AI agent during conversations.
+Actions execute HTTP requests and make the response data available to your AI agent during conversations.
 
-## How Connectors Work
+## How Actions Work
 
-1. **Define the connector** with HTTP method, URL, headers, and body
-2. **Reference in procedures** using `{{action:connector_name}}`
-3. **Connector executes** when procedure runs
+1. **Define the action** with HTTP method, URL, headers, and body
+2. **Reference in procedures** using `{{action:action_name}}`
+3. **Action executes** when procedure runs
 4. **Response data** becomes available to the AI agent
 5. **AI uses the data** to provide accurate, personalized responses
 
-## Creating a Connector
+## Creating an Action
 
-### Step 1: Navigate to Connectors
+### Step 1: Navigate to Actions
 
-1. Go to **Agents** → **Your Agent** → **Connectors**
-2. Click **"Create Connector"**
+1. Go to **Agents** → **Your Agent** → **Actions**
+2. Click **"Create Action""
 
 ### Step 2: Configure Basic Settings
 
-Fill in the connector details:
+Fill in the action details:
 
 - **Name**: Unique identifier (e.g., `get_order_status`)
 - **Description**: What this connector does (helps AI understand when to use it)
@@ -92,20 +92,20 @@ field1={{value1}}
 field2={{value2}}
 ```
 
-### Step 4: Test the Connector
+### Step 4: Test the Action
 
-1. Click **"Test Connector"**
+1. Click **"Test Action"**
 2. Provide sample values for variables
 3. Review the response
 4. Verify data structure is correct
 
 ### Step 5: Save
 
-Click **"Save"** to create the connector.
+Click **"Save"** to create the action.
 
-## Using Connectors in Procedures
+## Using Actions in Procedures
 
-Reference connectors in your procedure content using the action syntax:
+Reference actions in your procedure content using the action syntax:
 
 ```markdown
 # Order Status Check
@@ -128,12 +128,12 @@ Expected ship date: {{order_status.expected_ship_date}}
   icon="gears"
   href="/agents/procedures"
 >
-  Learn how to use connectors in procedures
+  Learn how to use actions in procedures
 </Card>
 
 ## Variable Substitution
 
-Variables in connector URLs, headers, and bodies are replaced with actual values at runtime.
+Variables in action URLs, headers, and bodies are replaced with actual values at runtime.
 
 ### Extracting Variables from Conversation
 
@@ -147,7 +147,7 @@ Customer: "What's the status of my order #12345?"
 The AI identifies:
 - `order_number` = "12345"
 
-**Example Connector URL**:
+**Example Action URL**:
 ```
 https://api.example.com/orders/{{order_number}}
 ```
@@ -168,7 +168,7 @@ Variables depend on conversation context and can include:
 
 ## Response Data
 
-Connector responses are available in procedure context.
+Action responses are available in procedure context.
 
 ### Accessing Response Data
 
@@ -200,7 +200,7 @@ Your subscription has expired. Would you like to renew?
 
 ## Authentication
 
-Connectors support various authentication methods:
+Actions support various authentication methods:
 
 ### API Key Authentication
 
@@ -229,15 +229,15 @@ Add custom headers as needed for your API.
 
 ## Best Practices
 
-1. **Clear Naming**: Use descriptive connector names (e.g., `get_order_status`, not `action1`)
-2. **Good Descriptions**: Help AI understand when to use each connector
+1. **Clear Naming**: Use descriptive action names (e.g., `get_order_status`, not `action1`)
+2. **Good Descriptions**: Help AI understand when to use each action
 3. **Error Handling**: Plan for API failures and timeouts
 4. **Secure Credentials**: Store API keys securely, never in URLs
-5. **Test Thoroughly**: Test connectors with various inputs
+5. **Test Thoroughly**: Test actions with various inputs
 6. **Response Validation**: Verify response structure matches expectations
 7. **Rate Limiting**: Be mindful of API rate limits
 
-## Example Connectors
+## Example Actions
 
 ### Example 1: Get Order Status
 
@@ -301,10 +301,10 @@ X-API-Key: kb_key
 
 ## Troubleshooting
 
-### Connector Not Executing
+### Action Not Executing
 
-- Verify connector is **enabled**
-- Check connector is referenced correctly in procedure
+- Verify action is **enabled**
+- Check action is referenced correctly in procedure
 - Ensure procedure is active and assigned to agent
 
 ### Variables Not Substituting
@@ -315,7 +315,7 @@ X-API-Key: kb_key
 
 ### API Errors
 
-- Test connector with valid sample data
+- Test action with valid sample data
 - Verify API endpoint URL is correct
 - Check authentication credentials are valid
 - Review API documentation for required headers/body
@@ -341,7 +341,7 @@ X-API-Key: kb_key
 3. **Validate Input**: Ensure extracted variables are validated
 4. **Minimal Permissions**: Use API keys with minimal required permissions
 5. **Rotate Credentials**: Regularly rotate API keys and tokens
-6. **Monitor Usage**: Track connector usage for anomalies
+6. **Monitor Usage**: Track action usage for anomalies
 
 ## Performance Tips
 
@@ -359,7 +359,7 @@ X-API-Key: kb_key
     icon="gears"
     href="/agents/procedures"
   >
-    Learn how to use connectors in procedures
+    Learn how to use actions in procedures
   </Card>
   <Card
     title="Data Sources"
