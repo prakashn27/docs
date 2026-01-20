@@ -1,18 +1,19 @@
 ---
-title: "AI Agents Overview"
+title: "AI Agents"
 description: "Learn about AI agents and how they work"
 ---
 
 ## What are AI Agents?
 
-AI Agents are intelligent assistants that can answer customer questions using your knowledge base. They use Retrieval-Augmented Generation (RAG) to provide accurate, context-aware responses.
+AI Agents are intelligent assistants that can answer customer questions using your knowledge base. Our AI agents can also perform actions on behalf of their customers.
 
-## How Agents Work
+## How AI Agents Work
 
-1. **Customer asks a question** via widget, SMS, Slack, or Zendesk
-2. **Agent searches knowledge base** using vector similarity search
+1. **Customer asks a question** via widget, SMS, WhatsApp
+2. **AI Agent searches knowledge base** to get the relavant context.
+2a. **Agent determines if any custom action need to be executed **.
 3. **Relevant context is retrieved** from your data sources
-4. **AI generates response** using OpenAI with the retrieved context
+4. **AI Agent generates response** that is unique to your organization's settings.
 5. **Response is sent** to the customer
 
 ## Agent Components
@@ -25,15 +26,6 @@ Agents use data sources to build their knowledge:
 - **Q&A Pairs**: Question-answer pairs for common queries
 - **Text Content**: Custom text snippets
 - **Websites**: Scraped website content
-
-### Configuration
-
-Each agent has configuration settings:
-
-- **AI Mode**: `rag` (with knowledge base) or `chat` (simple chat)
-- **Timeout**: Response timeout in seconds
-- **Temperature**: AI creativity level (0-1)
-- **Max Tokens**: Maximum response length
 
 ## Creating an Agent
 
@@ -60,10 +52,7 @@ Each agent has configuration settings:
 ### Step 3: Configure Agent Settings
 
 1. Navigate to your agent's **Settings** tab
-2. Configure the following:
-   - **AI Mode**: Choose RAG (Retrieval-Augmented Generation)
-   - **Timeout**: Set response timeout (default: 30 seconds)
-   - **System Prompt**: Customize agent behavior (optional)
+2. Configure **System Prompt**: Customize agent behavior (optional)
 3. Click **"Save Changes"**
 
 ### Step 4: Link to Channel

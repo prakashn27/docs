@@ -4,7 +4,7 @@
   "name": "Support Unicorn",
   "colors": {
     "primary": "#590088",
-    "light": "#7B2CBF",
+    "light": "#8B5CF6",
     "dark": "#3D0066"
   },
   "favicon": "/favicon.svg",
@@ -12,51 +12,93 @@
     "tabs": [
       {
         "tab": "Documentation",
+        "icon": "book-open",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Quick Start",
+            "icon": "rocket",
             "pages": [
-              "index",
-              "getting-started/overview"
+              "start/welcome"
             ]
           },
           {
-            "group": "AI Agents",
+            "group": "AI Agent Management",
+            "icon": "robot",
             "pages": [
-              "agents/overview",
-              "agents/data-sources",
-              "agents/procedures",
-              "agents/connectors"
-            ]
-          },
-          {
-            "group": "Channels",
-            "pages": [
-              "channels/live-chat",
-              "channels/sms",
-              "channels/whatsapp"
-            ]
-          },
-          {
-            "group": "Escalations",
-            "pages": [
-              "escalations/zendesk"
-            ]
-          },
-           {
-            "group": "Widget Integration",
-            "pages": [
-              "widget/installation",
-              "widget/configuration"
+              "ai-agent/overview",
+              {
+                "group": "Train",
+                "icon": "brain",
+                "pages": [
+                  "ai-agent/train/overview",
+                  "ai-agent/train/files",
+                  "ai-agent/train/text",
+                  "ai-agent/train/website",
+                  "ai-agent/train/qa",
+                  "ai-agent/train/actions",
+                  "ai-agent/train/workflows"
+                ]
+              },
+              {
+                "group": "Test",
+                "icon": "check",
+                "pages": [
+                  "ai-agent/test/overview"
+                ]
+              },
+              {
+                "group": "Channels",
+                "icon": "comments",
+                "pages": [
+                  "channels/overview",
+                  "channels/live-chat",
+                  "channels/whatsapp",
+                  "channels/sms"
+                ]
+              },
+              {
+                "group": "Escalations",
+                "icon": "hand",
+                "pages": [
+                  "escalations/overview",
+                  "escalations/slack",
+                  "escalations/zendesk"
+                ]
+              },
+              {
+                "group": "Analyze",
+                "icon": "chart-line",
+                "pages": [
+                  "analyze/overview"
+                ]
+              }
             ]
           },
           {
             "group": "Integrations",
+            "icon": "plug",
             "pages": [
-              "integrations/zendesk",
-              "integrations/slack"
+              "integrations/website",
+              "integrations/whatsapp",
+              "integrations/sms",
+              "integrations/shopify",
+              "integrations/webflow",
+              "integrations/wordpress",
+              "integrations/wix",
+              "integrations/weebly",
+              "integrations/framer",
+              "integrations/bubble"
             ]
           }
+        ]
+      },
+      {
+        "tab": "Blog",
+        "hidden": true,
+        "icon": "newspaper",
+        "pages": [
+          "blog/overview",
+          "blog/latest-posts"
         ]
       }
     ]

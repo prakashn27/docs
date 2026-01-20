@@ -40,5 +40,29 @@ Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/sett
 - If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
 
 ### Resources
+
 - [Mintlify documentation](https://mintlify.com/docs)
 - [Mintlify community](https://mintlify.com/community)
+
+### Structure
+
+```
+- Overview
+- AI Agents
+    - Billing
+    - Contacts
+    - Settings
+- Train
+    - Sources
+        - Files
+        - Text
+        - Website
+        - QnA
+    - Actions
+    - Workflows
+- Test
+- Integrate
+    - Channels
+    - Escalations
+- Analyze
+```

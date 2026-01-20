@@ -1,0 +1,60 @@
+---
+title: "Test Your AI Agent"
+description: "Preview and refine your AI agent before going live"
+---
+
+Test your AI agent in a live chat preview before deploying to customers. See exactly how your agent responds and refine its training until you're satisfied.
+
+## The Test Console
+
+Every AI agent includes a dedicated test console that simulates the customer experience. Use it to:
+
+- Preview responses in real-time
+- Identify gaps in your training data
+- Verify actions work correctly
+- Fine-tune answers before going live
+
+## How to Test
+
+1. Navigate to **AI Agent** → **Test**
+2. Type a message as if you were a customer
+3. Review the AI agent's response
+4. If the response needs improvement, update your [training data](/ai-agent/train/overview)
+5. Repeat until you're satisfied with the results
+
+## What to Test
+
+<CardGroup cols={2}>
+  <Card title="Common Questions" icon="comments">
+    Ask the questions your customers ask most often. Verify answers are accurate and helpful.
+  </Card>
+  <Card title="Edge Cases" icon="code-branch">
+    Try unusual or complex questions to see how the AI handles uncertainty.
+  </Card>
+  <Card title="Actions" icon="bolt">
+    If you've configured actions, test that they trigger correctly and return expected results.
+  </Card>
+  <Card title="Conversation Flow" icon="arrows-spin">
+    Have multi-turn conversations to ensure the AI maintains context.
+  </Card>
+</CardGroup>
+
+## Improving Responses
+
+When you find a response that needs work:
+
+<Steps>
+  <Step title="Identify the issue">
+    Is the answer wrong, incomplete, or poorly phrased?
+  </Step>
+  <Step title="Update training data">
+    Add or edit content in [Files](/ai-agent/train/files), [Text](/ai-agent/train/text), or [Q&A](/ai-agent/train/qna).
+  </Step>
+  <Step title="Re-test">
+    Ask the same question again to verify the improvement.
+  </Step>
+</Steps>
+
+<Tip>
+  For critical questions, add a [Q&A pair](/ai-agent/train/qna) to ensure the AI gives the exact answer you want.
+</Tip> 
