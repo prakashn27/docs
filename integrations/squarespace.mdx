@@ -1,14 +1,12 @@
 ---
-title: "Framer Integration"
-description: "Integrate Support Unicorn with Framer"
+title: "Squarespace Integration"
+description: "Integrate Support Unicorn with Squarespace"
 ---
 
 ## How to Add the Widget Script
 
-1. Click the **Settings** icon (gear) in the top right of your Framer project.
-2. Go to the **General** section.
-3. Scroll down to **Custom Code**.
-4. Paste the following script into the **End of `<body>`** block:
+1. Go to **Settings > Developer Tools > Code Injection**.
+2. Paste the following script into the **Footer** text area:
 
 ```html
 <script>
@@ -19,7 +17,11 @@ description: "Integrate Support Unicorn with Framer"
 <script src="https://your-support-unicorn-instance.com/sdk.js"></script>
 ```
 
-5. Click **Save** and **Publish** your site.
+3. Click **Save**.
+
+<Warning>
+  Code Injection requires a **Business** or **Commerce** plan. It is not available on the Personal plan.
+</Warning>
 
 ## Next Steps
 

@@ -86,6 +86,7 @@
               "integrations/wordpress",
               "integrations/wix",
               "integrations/weebly",
+              "integrations/squarespace",
               "integrations/framer",
               "integrations/bubble"
             ]

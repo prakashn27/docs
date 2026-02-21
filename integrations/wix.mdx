@@ -3,7 +3,33 @@ title: "Wix Integration"
 description: "Integrate Support Unicorn with Wix"
 ---
 
-## Coming Soon
+## How to Add the Widget Script
 
-This page is under construction. Content will be available soon.
+1. Go to your **Wix Dashboard**.
+2. Navigate to **Settings > Custom Code** (under the **Advanced** tab).
+3. Click **+ Add Custom Code**.
+4. Paste the following script:
 
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_YOUR_TOKEN_HERE',
+  };
+</script>
+<script src="https://your-support-unicorn-instance.com/sdk.js"></script>
+```
+
+5. Give it a name (e.g., "Support Unicorn Widget").
+6. Under **Add Code to Pages**, select **All Pages** (or choose specific pages).
+7. Under **Place Code in**, select **Body - End**.
+8. Click **Apply**.
+
+## Next Steps
+
+<Card
+  title="Widget Configuration"
+  icon="settings"
+  href="/widget/configuration"
+>
+  Customize widget appearance and behavior
+</Card>

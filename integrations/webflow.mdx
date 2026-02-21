@@ -3,7 +3,42 @@ title: "Webflow Integration"
 description: "Integrate Support Unicorn with Webflow"
 ---
 
-## Coming Soon
+## How to Add the Widget Script
 
-This page is under construction. Content will be available soon.
+### Global (All Pages)
 
+1. Go to **Project Settings > Custom Code**.
+2. Paste the following script into the **Footer Code** section (before `</body>` tag):
+
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_YOUR_TOKEN_HERE',
+  };
+</script>
+<script src="https://your-support-unicorn-instance.com/sdk.js"></script>
+```
+
+3. Click **Save Changes**.
+
+### Specific Page Only
+
+1. Open the **Designer** and select the page you want.
+2. Click the **gear icon** on that page to open Page Settings.
+3. Scroll to the **Custom Code** section.
+4. Paste the script into the **Before `</body>` tag** field.
+5. Save and publish.
+
+<Note>
+  Custom code in Webflow only runs on the **published site**. It will not appear in the Designer preview.
+</Note>
+
+## Next Steps
+
+<Card
+  title="Widget Configuration"
+  icon="settings"
+  href="/widget/configuration"
+>
+  Customize widget appearance and behavior
+</Card>

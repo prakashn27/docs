@@ -3,7 +3,44 @@ title: "Shopify Integration"
 description: "Integrate Support Unicorn with Shopify"
 ---
 
-## Coming Soon
+## How to Add the Widget Script
 
-This page is under construction. Content will be available soon.
+### Option 1: Edit Theme Code
 
+1. Go to **Online Store > Themes**.
+2. Click the **"..."** (Actions) button on your active theme, then select **Edit Code**.
+3. Open the `theme.liquid` file.
+4. Paste the following script just before the closing `</body>` tag:
+
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_YOUR_TOKEN_HERE',
+  };
+</script>
+<script src="https://your-support-unicorn-instance.com/sdk.js"></script>
+```
+
+5. Click **Save**.
+
+### Option 2: Custom Pixel (for Tracking Scripts)
+
+For tracking and analytics scripts, Shopify now recommends using **Custom Pixels** for better privacy compliance:
+
+1. Go to **Settings > Customer Events**.
+2. Click **Add custom pixel**.
+3. Name it and paste your script code.
+
+<Note>
+  The Custom Pixel approach is primarily for tracking scripts. For the live chat widget, use the theme code method above.
+</Note>
+
+## Next Steps
+
+<Card
+  title="Widget Configuration"
+  icon="settings"
+  href="/widget/configuration"
+>
+  Customize widget appearance and behavior
+</Card>

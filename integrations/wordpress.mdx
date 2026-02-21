@@ -3,7 +3,49 @@ title: "WordPress Integration"
 description: "Integrate Support Unicorn with WordPress"
 ---
 
-## Coming Soon
+## How to Add the Widget Script
 
-This page is under construction. Content will be available soon.
+There are two ways to add the Support Unicorn widget to your WordPress site.
 
+### Option 1: Using a Plugin (Recommended)
+
+Install a plugin like **WPCode** (formerly "Insert Headers and Footers"). This ensures your scripts persist even if you change themes.
+
+1. Install and activate the **WPCode** plugin from the WordPress plugin directory.
+2. Go to **Code Snippets > Header & Footer**.
+3. Paste the following script into the **Footer** section:
+
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_YOUR_TOKEN_HERE',
+  };
+</script>
+<script src="https://your-support-unicorn-instance.com/sdk.js"></script>
+```
+
+4. Click **Save Changes**.
+
+### Option 2: Editing the Theme File
+
+1. Go to **Appearance > Theme File Editor**.
+2. Open `header.php` (or `footer.php`).
+3. Paste the widget script before the closing `</head>` or `</body>` tag.
+
+<Warning>
+  Theme file edits will be lost if you switch or update your theme. Use the plugin method for a more durable setup.
+</Warning>
+
+<Note>
+  If you use a page builder like **Elementor**, use the **Custom Code** section in the Elementor dashboard instead.
+</Note>
+
+## Next Steps
+
+<Card
+  title="Widget Configuration"
+  icon="settings"
+  href="/widget/configuration"
+>
+  Customize widget appearance and behavior
+</Card>
