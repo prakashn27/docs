@@ -3,7 +3,33 @@ title: "Weebly Integration"
 description: "Integrate Support Unicorn with Weebly"
 ---
 
-## Coming Soon
+## How to Add the Widget Script
 
-This page is under construction. Content will be available soon.
+1. In the Weebly editor, go to **Settings > SEO**.
+2. Scroll down to the **Footer Code** section.
+3. Paste the following script:
 
+```html
+<script>
+  window.supportUnicornSettings = {
+    widgetToken: 'wgt_YOUR_TOKEN_HERE',
+  };
+</script>
+<script src="https://your-support-unicorn-instance.com/sdk.js"></script>
+```
+
+4. Click **Save** and **Publish** your site.
+
+<Note>
+  If you need the script on specific pages only, use the **Embed Code** element. Drag it onto the page in the editor and paste the script inside.
+</Note>
+
+## Next Steps
+
+<Card
+  title="Widget Configuration"
+  icon="settings"
+  href="/widget/configuration"
+>
+  Customize widget appearance and behavior
+</Card>
