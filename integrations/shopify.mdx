@@ -3,6 +3,18 @@ title: "Shopify Integration"
 description: "Integrate Support Unicorn with Shopify"
 ---
 
+## Video Walkthrough
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/CpF72bJtTCo"
+  title="Shopify Integration Walkthrough"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>
+
 ## How to Add the Widget Script
 
 ### Option 1: Edit Theme Code
@@ -10,16 +22,7 @@ description: "Integrate Support Unicorn with Shopify"
 1. Go to **Online Store > Themes**.
 2. Click the **"..."** (Actions) button on your active theme, then select **Edit Code**.
 3. Open the `theme.liquid` file.
-4. Paste the following script just before the closing `</body>` tag:
-
-```html
-<script>
-  window.supportUnicornSettings = {
-    widgetToken: 'wgt_YOUR_TOKEN_HERE',
-  };
-</script>
-<script src="https://your-support-unicorn-instance.com/sdk.js"></script>
-```
+4. Copy your widget script from your agent's **Channels** page at [supportunicorn.com](https://supportunicorn.com) and paste it just before the closing `</body>` tag.
 
 5. Click **Save**.
 
