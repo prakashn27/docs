@@ -1,12 +1,12 @@
 <svg width="220" height="32" viewBox="0 0 220 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Heart Icon -->
-  <g transform="translate(-2, 2) scale(0.055)">
-    <path d="M256,48C141.31,48,48,141.31,48,256s93.31,208,208,208,208-93.31,208-208S370.69,48,256,48Zm74.69,252.82C322.19,311.18,291,339.3,256,364.33c-35-25-66.19-53.15-74.69-63.51-20-24.37-29.58-49.4-29.3-76.5.31-31.06,25.22-56.33,55.53-56.33,22,0,37.3,12.41,46.19,22.76L256,193.5l2.27-2.75C267,180.29,282.42,168,304.46,168c30.31,0,55.22,25.27,55.53,56.33C360.27,251.42,350.68,276.45,330.69,300.82Z"
-      fill="#8B5CF6"/>
-  </g>
-
-  <!-- Text: Support Unicorn -->
-  <text x="36" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" fill="#FFFFFF">
-    Support Unicorn
+  <defs>
+    <linearGradient id="gradient-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#818CF8"/>
+      <stop offset="50%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#F472B6"/>
+    </linearGradient>
+  </defs>
+  <text x="4" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="url(#gradient-dark)">
+    SupportUnicorn
   </text>
 </svg>
