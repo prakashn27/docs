@@ -57,6 +57,50 @@ Choose when to automatically escalate:
 
 Click **"Save"** to create the escalation path.
 
+### Step 6: Configure Webhook (Required for Agent Replies)
+
+After saving the escalation path, a **Webhook Configuration** section appears with a webhook URL and signature token. You must configure this webhook in Zendesk so that agent replies are routed back to the customer.
+
+1. In Zendesk, go to **Admin Center** → **Apps and integrations** → **Webhooks**
+2. Click **"Create webhook"**
+3. Configure:
+   - **Endpoint URL**: Copy the webhook URL shown on your escalation path
+   - **Request method**: POST
+   - **Request format**: JSON
+   - **Custom header**: Add `X-SupportUnicorn-Webhook` with the signature token shown on your escalation path
+4. Click **"Create webhook"**
+
+Then create a **Trigger** to fire the webhook:
+
+1. Go to **Admin Center** → **Objects and rules** → **Triggers**
+2. Click **"Add trigger"**
+3. Configure:
+   - **Name**: "Support Unicorn Agent Reply"
+   - **Conditions** (Meet ALL):
+     - Ticket > Tags > Contains at least one of > `ai-escalation` (or your configured tag)
+     - Comment > Is > Public
+     - Current user > Is > Agent
+   - **Actions**:
+     - Notify active webhook → Select the webhook you created
+4. Save the trigger
+
+<Warning>
+  Without this webhook, ticket creation will work but **agent replies will not reach the customer**. The webhook is what enables bi-directional communication.
+</Warning>
+
+### Step 7: Use a Separate API User (Important)
+
+The API credentials used in your escalation path should belong to a **dedicated service account**, not a real agent account. Support Unicorn filters out comments from the API user to prevent webhook loops (the system echoing its own messages). If your agent account is the same as the API user, your replies will be silently ignored.
+
+**To set up a dedicated API user:**
+
+1. In Zendesk, create a new agent or admin user (e.g., "Support Unicorn Bot")
+2. Generate an API token for this user
+3. Use this user's email and API token in your escalation path configuration
+4. Run `rake zendesk:populate_user_ids` to store the API user ID
+
+This ensures your personal agent replies are routed to the customer, while only automated API comments are filtered out.
+
 ## Configuration Options
 
 | Option | Description | Required | Values |
@@ -167,12 +211,33 @@ Create ticket when keywords detected.
 
 When escalation is triggered:
 
-1. **Ticket Created**: New ticket created in Zendesk
-2. **AI Pauses**: AI agent stops responding
+1. **Ticket Created**: New ticket created in Zendesk with full conversation history
+2. **AI Pauses**: AI agent stops responding to the customer
 3. **Agent Assigned**: Ticket routed per Zendesk rules
-4. **Context Included**: Full conversation in ticket description
+4. **Context Included**: Full conversation transcript in ticket description
 5. **Notification Sent**: Agent receives Zendesk notification
 6. **Human Response**: Agent responds through Zendesk
+7. **Reply Routed**: Zendesk webhook sends the reply back to Support Unicorn
+8. **Customer Receives**: Reply delivered to customer on original channel (live chat, SMS, or WhatsApp)
+
+### Reply Flow (Agent → Customer)
+
+When a Zendesk agent replies to an escalated ticket:
+
+1. Zendesk fires the webhook to your Support Unicorn endpoint
+2. Support Unicorn matches the ticket ID to the original conversation
+3. The reply is routed back to the customer via their original channel:
+   - **Live Chat**: Delivered via WebSocket in real-time
+   - **SMS**: Sent via Twilio
+   - **WhatsApp**: Sent via Twilio
+
+### Customer Follow-up Messages
+
+When a customer sends additional messages after escalation:
+
+1. The message is stored in the conversation
+2. It is automatically added as a public comment on the Zendesk ticket
+3. The Zendesk agent sees it in real-time
 
 ## Managing Zendesk Escalations
 
@@ -278,6 +343,20 @@ I've created a support ticket for our billing team. They'll contact you within 2
 - Verify tag syntax (comma-separated, no special chars)
 - Check Zendesk tag permissions
 - Ensure tags don't conflict with Zendesk triggers
+
+### Agent Replies Not Reaching Customer
+
+- **Webhook not configured**: Ensure you completed Step 6 (webhook setup in Zendesk). Without it, no data reaches Support Unicorn when agents reply.
+- **Same user for API and agent**: If the API user ID matches the replying agent's ID, replies are silently filtered as "webhook loops". Use a separate service account for the API credentials (see Step 7).
+- **Webhook URL incorrect**: Verify the webhook URL in Zendesk matches the one shown on your escalation path.
+- **Trigger not firing**: Ensure the Zendesk trigger conditions match (public comment, by agent, correct tags).
+- **Check server logs**: Look for `Skipping comment: posted by API user` — this means the API user ID matches the agent. Look for `No conversation found for Zendesk ticket` — this means the ticket ID doesn't match any escalated conversation.
+
+### "Failed to connect to human agent" Error
+
+This can occur if a previous Slack integration was removed. The escalation to Zendesk succeeds, but the system may still attempt a Slack handoff which fails. Check that:
+- No stale Slack escalation paths are active on the same agent
+- The agent's highest-priority active escalation path is the Zendesk one
 
 ### Missing Conversation Context
 
