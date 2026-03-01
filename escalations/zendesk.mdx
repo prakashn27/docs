@@ -7,6 +7,18 @@ description: "Automatically create Zendesk tickets from escalated conversations"
 
 Automatically create Zendesk support tickets when conversations need human attention, seamlessly integrating AI support with your existing ticketing system.
 
+## Video Walkthrough
+
+<iframe
+  width="100%"
+  height="400"
+  src="https://www.youtube.com/embed/73f8lqkXmAk"
+  title="How to Add Zendesk Escalations"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+></iframe>
+
 ## Requirements
 
 - Active Zendesk account
@@ -45,24 +57,17 @@ Configure ticket creation settings:
 - **Group ID** (optional): Assign to specific support group
 - **Subject Template** (optional): Custom ticket subject format
 
-### Step 4: Set Up Triggers (Optional)
-
-Choose when to automatically escalate:
-
-- **Manual Only**: Only when customer requests or AI determines need
-- **Message Count**: After specific number of messages
-- **Keywords**: When certain words detected
-
-### Step 5: Save Configuration
+### Step 4: Save Configuration
 
 Click **"Save"** to create the escalation path.
 
-### Step 6: Configure Webhook (Required for Agent Replies)
+### Step 5: Configure Webhook (Required for Agent Replies)
 
 After saving the escalation path, a **Webhook Configuration** section appears with a webhook URL and signature token. You must configure this webhook in Zendesk so that agent replies are routed back to the customer.
 
 1. In Zendesk, go to **Admin Center** → **Apps and integrations** → **Webhooks**
 2. Click **"Create webhook"**
+3. Set the events as "Comment Created" and "Status Changed".
 3. Configure:
    - **Endpoint URL**: Copy the webhook URL shown on your escalation path
    - **Request method**: POST
@@ -70,25 +75,8 @@ After saving the escalation path, a **Webhook Configuration** section appears wi
    - **Custom header**: Add `X-SupportUnicorn-Webhook` with the signature token shown on your escalation path
 4. Click **"Create webhook"**
 
-Then create a **Trigger** to fire the webhook:
 
-1. Go to **Admin Center** → **Objects and rules** → **Triggers**
-2. Click **"Add trigger"**
-3. Configure:
-   - **Name**: "Support Unicorn Agent Reply"
-   - **Conditions** (Meet ALL):
-     - Ticket > Tags > Contains at least one of > `ai-escalation` (or your configured tag)
-     - Comment > Is > Public
-     - Current user > Is > Agent
-   - **Actions**:
-     - Notify active webhook → Select the webhook you created
-4. Save the trigger
-
-<Warning>
-  Without this webhook, ticket creation will work but **agent replies will not reach the customer**. The webhook is what enables bi-directional communication.
-</Warning>
-
-### Step 7: Use a Separate API User (Important)
+### Step 6: Use a Separate API User (Important)
 
 The API credentials used in your escalation path should belong to a **dedicated service account**, not a real agent account. Support Unicorn filters out comments from the API user to prevent webhook loops (the system echoing its own messages). If your agent account is the same as the API user, your replies will be silently ignored.
 
@@ -154,7 +142,6 @@ The ticket description automatically includes:
 - **Full Transcript**: Complete conversation history
 - **Customer Information**: Name, email, identifier
 - **Timestamp**: When escalation occurred
-- **Link to Conversation**: Direct link in Support Unicorn
 
 ## Tags
 
@@ -183,29 +170,6 @@ Assign tickets to specific Zendesk groups:
 - Tier 1 Support: `123456`
 - Billing Team: `234567`
 - Technical Support: `345678`
-
-## Escalation Triggers
-
-### Manual Only
-
-Create ticket only when:
-- Customer explicitly requests human help
-- AI determines it cannot assist
-
-### Message Count Trigger
-
-Create ticket after specific number of messages.
-
-**Use Case**: If conversation exceeds 5 messages, AI may not be resolving the issue.
-
-### Keyword Trigger
-
-Create ticket when keywords detected.
-
-**Example Keywords**:
-- Billing: "refund", "charge", "billing"
-- Technical: "error", "broken", "not working"
-- Escalation: "manager", "complaint"
 
 ## How It Works
 
